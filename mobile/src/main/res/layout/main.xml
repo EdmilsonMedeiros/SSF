@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.parasita.sussemfila.main">
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logoprincipal" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/linha1"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/top">
+
+        <Button
+            android:layout_width="189dp"
+            android:layout_height="200dp"
+            android:layout_gravity="left"
+            android:background="@drawable/button"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="AGENDAR CONSULTA"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="normal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button"
+            android:textAlignment="center"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:text="CONSULTAR AGENDAMENTO"
+            android:textColor="@color/white"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/linha2"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linha1"
+        android:layout_marginTop="5dp">
+
+        <Button
+            android:layout_width="189dp"
+            android:layout_height="200dp"
+            android:layout_weight=""
+            android:layout_gravity="left"
+            android:background="@drawable/button"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="ULTIMAS CONSULTAS"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="normal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button"
+            android:textAlignment="center"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:text="CONFIGURAÇÕES"
+            android:textColor="@color/white"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
