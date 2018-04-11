@@ -11,37 +11,74 @@
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true">
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/logoprincipal" />
+            android:src="@drawable/logoprincipal"
+            android:contentDescription="TODO" />
     </LinearLayout>
-    <ScrollView
+
+    <LinearLayout
+        android:id="@+id/linha1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="164dp"
+        android:layout_below="@+id/top">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="189dp"
-                android:layout_height="170dp"
-                android:layout_gravity="left"
-                android:background="@drawable/botaoconsultacadastro"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textStyle="normal" />
+        <Button
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/botaoconsultacadastro"
+            android:text=""
+            android:textColor="@color/white"
+            android:textStyle="normal" />
 
-        </LinearLayout>
+        <Button
+            android:layout_width="165dp"
+            android:layout_height="145dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/botaoconsultaagendadas"
+            android:text=""
+            android:textColor="@color/white"
+            android:textStyle="normal" />
 
-    </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linha2"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linha1"
+        android:layout_marginTop="5dp">
+
+        <Button
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight=""
+            android:background="@drawable/Botaohistorico"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="normal" />
+
+        <Button
+            android:layout_width="159dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/botaoconfiguracoes"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="normal" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
