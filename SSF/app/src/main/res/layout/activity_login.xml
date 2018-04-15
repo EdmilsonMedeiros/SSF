@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
+        android:id="@+id/editTextPass"
         android:layout_width="326dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
@@ -69,7 +69,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonentrar"
+        android:id="@+id/btnEntrar"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -77,6 +77,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="412dp"
         android:background="@drawable/button"
+        android:onClick="logar"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:text="ENTRAR"
