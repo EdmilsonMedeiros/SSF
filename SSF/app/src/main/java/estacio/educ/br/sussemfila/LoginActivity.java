@@ -27,4 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     public void logar(View v){
 
     }
+    public void cadastrar(View v){
+        setContentView(R.layout.activity_cadastro);
+    }
 }

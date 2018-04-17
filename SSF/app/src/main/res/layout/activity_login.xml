@@ -36,7 +36,7 @@
 
     <AutoCompleteTextView
         android:id="@+id/editTextCpfSus"
-        android:layout_width="326dp"
+        android:layout_width="305dp"
         android:layout_height="40dp"
         android:layout_marginTop="312dp"
         android:background="@drawable/inputtop"
@@ -52,7 +52,7 @@
 
     <AutoCompleteTextView
         android:id="@+id/editTextPass"
-        android:layout_width="326dp"
+        android:layout_width="304dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -96,6 +96,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="464dp"
         android:clickable="true"
+        android:onClick="cadastrar"
         android:text="Não é cadastrado? Cadastre-se"
         android:textIsSelectable="false"
         app:layout_constraintEnd_toEndOf="parent"
