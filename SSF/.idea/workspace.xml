@@ -25,10 +25,10 @@
     <leaf>
       <file leaf-file-name="activity_cadastro.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cadastro.xml">
-          <provider editor-type-id="android-designer2">
+          <provider selected="true" editor-type-id="android-designer2">
             <state />
           </provider>
-          <provider selected="true" editor-type-id="text-editor">
+          <provider editor-type-id="text-editor">
             <state relative-caret-position="210">
               <caret line="178" column="12" lean-forward="false" selection-start-line="176" selection-start-column="4" selection-end-line="191" selection-end-column="68" />
               <folding />
@@ -2214,14 +2214,14 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cadastro.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estacio/educ/br/sussemfila/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="178" column="12" lean-forward="false" selection-start-line="176" selection-start-column="4" selection-end-line="191" selection-end-column="68" />
-          <folding />
+        <state relative-caret-position="391">
+          <caret line="27" column="47" lean-forward="false" selection-start-line="27" selection-start-column="47" selection-end-line="27" selection-end-column="47" />
+          <folding>
+            <element signature="e#768#769#0" expanded="true" />
+            <element signature="e#822#823#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2236,14 +2236,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estacio/educ/br/sussemfila/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="27" column="47" lean-forward="false" selection-start-line="27" selection-start-column="47" selection-end-line="27" selection-end-column="47" />
-          <folding>
-            <element signature="e#768#769#0" expanded="true" />
-            <element signature="e#822#823#0" expanded="true" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cadastro.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="178" column="12" lean-forward="false" selection-start-line="176" selection-start-column="4" selection-end-line="191" selection-end-column="68" />
+          <folding />
         </state>
       </provider>
     </entry>
