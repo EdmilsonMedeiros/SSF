@@ -164,6 +164,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="40dp"
         android:background="@drawable/buttonleft"
+        android:onClick="onClick"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:text="Cadastrar"
