@@ -80,7 +80,24 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            titulo.setText(result);
+
+            if(result.contains("login_ok")){
+
+                String[] dados = result.split(",");
+
+                Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                main.putExtra("Nome", dados[1]);
+                main.putExtra("CPF", dados[2]);
+                startActivity(main);
+            } else {
+                Toast.makeText(getApplicationContext(), "Usuario ou senha incorretos!", Toast.LENGTH_LONG).show();
+            }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
