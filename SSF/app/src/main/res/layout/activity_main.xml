@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="395dp"
+        android:layout_width="431dp"
         android:layout_height="0dp"
         android:layout_marginBottom="334dp"
         android:layout_marginEnd="8dp"
@@ -17,10 +17,10 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/TextViewnomeusuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/teste" />
 
 
@@ -37,24 +37,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonHistorico"
+        android:id="@+id/buttonConsultasAgendadas"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="208dp"
-        android:background="@drawable/botaohistorico"
+        android:background="@drawable/botaoconsultaagendadas"
         android:text=""
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonConsultaConsultas"
+        android:id="@+id/buttonhistorico"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="364dp"
-        android:background="@drawable/botaoconsultaagendadas"
+        android:background="@drawable/botaohistorico"
         android:text=""
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,28 +72,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/TextViewnomeusuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Carregando..."
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/TextViewcpfusuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/TextViewnomeusuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Carregando..."
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/TextViewcpfusuario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/TextViewcpfusuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Carregando..."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/TextViewcpfusuario"
+        android:id="@+id/botaosairmain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Carregando..."
+        android:layout_marginEnd="32dp"
+        android:text="SAIR"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="47dp"
+        android:layout_height="67dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/TextViewnomeusuario"
+        app:srcCompat="@drawable/perfilm" />
+
 
 </android.support.constraint.ConstraintLayout>
