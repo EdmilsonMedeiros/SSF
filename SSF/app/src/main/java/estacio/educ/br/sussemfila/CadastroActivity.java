@@ -66,7 +66,8 @@ public class CadastroActivity extends AppCompatActivity {
         botaocancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent saircadastro = new Intent(CadastroActivity.this,LoginActivity.class);
+                startActivity(saircadastro);
             }
         });
 
