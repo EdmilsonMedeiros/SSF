@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView user_cpf, user_senha;
     private Button botao_entrar;
     private TextView botao_cadastrar;
+    private String nomedocara = "";
+    private String cpfdocara = "";
 
     private RequestQueue requestQueue;
     private static final String URL = "http://sussemfila.000webhostapp.com/acesso.php ";
@@ -67,9 +69,13 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.names().get(0).equals("confirmado")) {
                                 Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                                nomedocara = jsonObject.getString("nome");
+                                cpfdocara = jsonObject.getString("cpf");
+                                main.putExtra("cpf", cpfdocara);
+                                main.putExtra("nome", nomedocara);
                                 startActivity(main);
                             }else {
-                                Toast.makeText(getApplicationContext(), "Error"+jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error: "+jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
 
                             }
                         } catch (JSONException e) {
