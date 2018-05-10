@@ -7,6 +7,7 @@ public class Paciente implements Serializable {
     private String datanascimento;
     private String cpf;
     private String endereco;
+    private String cidade;
 
     private String img;
 
@@ -42,6 +43,14 @@ public class Paciente implements Serializable {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     public String getEndereco() {

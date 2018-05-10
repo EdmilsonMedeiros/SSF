@@ -23,17 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
         Intent a = getIntent();
         String nome = a.getExtras().getString("nome");
-        final String cpf = a.getExtras().getString("cpf");
         nomeusuario.setText(nome);
-        cpfusuario.setText(cpf);
 
+        Bundle bundle = a.getBundleExtra("a1");
+        Paciente usuario = (Paciente) bundle.getSerializable("paciente");
+
+
+        cpfusuario.setText(usuario.getCpf());
 
         consulta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent agendar = new Intent(MainActivity.this, ConsultaActivity.class);
-                agendar.putExtra("cpf",cpf);
-                startActivity(agendar);
             }
         });
 

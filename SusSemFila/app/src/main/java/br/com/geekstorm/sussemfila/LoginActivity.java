@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                                 main.putExtra("a1",bundle);
                                 //Fim do metodo
 
-                                main.putExtra("cpf", cpfdocara);
                                 main.putExtra("nome", nomedocara);
                                 progress.cancel();
                                 startActivity(main);
