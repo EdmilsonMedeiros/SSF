@@ -37,6 +37,17 @@
         <item name="android:paddingEnd">20dp</item>
     </style>
 
+    <style name="editText_style_center">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/edittextcenter</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+    </style>
+
     <style name="editText_style_down">
         <item name="android:layout_gravity">center</item>
         <item name="android:background">@drawable/edittextdown</item>

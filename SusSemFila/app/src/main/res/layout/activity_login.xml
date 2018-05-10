@@ -34,7 +34,7 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/Login_senha"
+            android:id="@+id/Login_pass"
             style="@style/editText_style_down"
             android:hint="Digite sua Senha"
             android:inputType="textPassword" />

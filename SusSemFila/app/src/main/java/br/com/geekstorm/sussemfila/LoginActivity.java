@@ -48,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
 
         this.user_cpf = findViewById(R.id.Login_cpf);
         this.user_senha = findViewById(R.id.Login_pass);
-        this.botao_entrar = (Button) findViewById(R.id.Login_botaoentrar);
-        this.botao_cadastrar = (TextView) findViewById(R.id.Login_botaocadastrar);
+        this.botao_entrar = (Button) findViewById(R.id.Login_btacessar);
+        this.botao_cadastrar = (TextView) findViewById(R.id.Login_btCadastrar);
 
         requestQueue = Volley.newRequestQueue(this);
 
