@@ -10,32 +10,32 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     Button consulta;
-    TextView nomeusuario, cpfusuario;
+    TextView nomeusuario, cpfusuario, btsair;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        consulta = (Button) findViewById(R.id.Main_ConsultasAgendadas);
-        nomeusuario = (TextView) findViewById(R.id.Main_nomeusuario);
-        cpfusuario = (TextView) findViewById(R.id.Main_cpfusuario);
+        nomeusuario = (TextView) findViewById(R.id.Main_nomeuser);
+        cpfusuario = (TextView) findViewById(R.id.Main_cpfuser);
+        btsair = (TextView)  findViewById(R.id.Main_sair);
 
         Intent a = getIntent();
-        String nome = a.getExtras().getString("nome");
-        nomeusuario.setText(nome);
 
         Bundle bundle = a.getBundleExtra("a1");
         Paciente usuario = (Paciente) bundle.getSerializable("paciente");
 
+        nomeusuario.setText(usuario.getNome());
+        cpfusuario.setText("CPF: "+usuario.getCpf());
 
-        cpfusuario.setText(usuario.getCpf());
-
-        consulta.setOnClickListener(new View.OnClickListener() {
+        btsair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent sair = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(sair);
             }
         });
-
     }
+
 }

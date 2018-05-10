@@ -2,4 +2,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="activity_horizontal_margin">35dp</dimen>
     <dimen name="activiy_vertical_margin">35dp</dimen>
+
+    <dimen name="activity_horizontal_margin_main">0dp</dimen>
+    <dimen name="activity_vertical_margin_main">0dp</dimen>
 </resources>
