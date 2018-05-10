@@ -48,7 +48,7 @@ public class ConsultaActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.names().get(0).equals("confirmado")) {
-                        nomepaciente = jsonObject.getString("paciente");
+                        nomepaciente = jsonObject.getString("Paciente");
                         titulo.setText(nomepaciente);
                     } else {
                         Toast.makeText(getApplicationContext(), "Error: " + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();

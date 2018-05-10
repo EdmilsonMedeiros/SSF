@@ -43,7 +43,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="196dp"
-        android:background="@drawable/inputtop"
+        android:background="@drawable/edittexttop"
         android:hint="NOME COMPLETO"
         android:paddingEnd="20dp"
         android:paddingStart="20dp"

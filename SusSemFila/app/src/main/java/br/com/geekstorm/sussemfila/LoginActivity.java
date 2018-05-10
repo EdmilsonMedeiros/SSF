@@ -2,12 +2,11 @@ package br.com.geekstorm.sussemfila;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,19 +20,23 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private AutoCompleteTextView user_cpf, user_senha;
+    private EditText user_cpf, user_senha;
     private Button botao_entrar;
     private TextView botao_cadastrar;
     private String nomedocara = "";
     private String cpfdocara = "";
 
+    Paciente paciente;
+
+    ProgressDialog progress;
+    Bundle bundle;
     private RequestQueue requestQueue;
     private static final String URL = "http://sussemfila.000webhostapp.com/acesso.php ";
     private StringRequest request;
@@ -62,6 +65,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if(user_cpf.getText().toString().isEmpty() || user_senha.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(),"Você não pode acessar sem todas as informações", Toast.LENGTH_LONG).show();
+                }else{
+                    progress = new ProgressDialog(LoginActivity.this);
+                    progress.setTitle("Aguarde...");
+                    progress.show();
+
                 request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -71,10 +81,21 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent main = new Intent(LoginActivity.this, MainActivity.class);
                                 nomedocara = jsonObject.getString("nome");
                                 cpfdocara = jsonObject.getString("cpf");
+
+                                //Criando método para passar a Classe pessoa
+                                Bundle bundle = new Bundle();
+                                paciente = new Paciente(nomedocara,cpfdocara);
+
+                                bundle.putSerializable("paciente", paciente);
+                                main.putExtra("a1",bundle);
+                                //Fim do metodo
+
                                 main.putExtra("cpf", cpfdocara);
                                 main.putExtra("nome", nomedocara);
+                                progress.cancel();
                                 startActivity(main);
                             }else {
+                                progress.cancel();
                                 Toast.makeText(getApplicationContext(), "Error: "+jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
 
                             }
@@ -100,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 };
                 requestQueue.add(request);
-            }
+            }}
         });
 
 

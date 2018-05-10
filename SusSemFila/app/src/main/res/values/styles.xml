@@ -8,8 +8,59 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="versioninfor">
+        <item name="android:text">Version 1.0.4</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+
+    </style>
+
+    <style name="inforapp">
+        <item name="android:text">"@2018, SUS SEM FILA, TODOS OS DIREITOS RESERVADOS"</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="editText_style_top">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/edittexttop</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+    </style>
+
+    <style name="editText_style_down">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/edittextdown</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+    </style>
+
+    <style name="button_left">
+        <item name="android:background">@drawable/buttonleft</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:color">@color/white</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="button_right">
+        <item name="android:background">@drawable/buttonright</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:color">@color/white</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
 </resources>
