@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".CadastroActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ConsultaActivity"></activity>
+        <activity android:name=".AgendamentoActivity"></activity>
     </application>
 
 </manifest>
