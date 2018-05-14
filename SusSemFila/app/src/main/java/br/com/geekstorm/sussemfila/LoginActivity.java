@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                                 main.putExtra("a1",bundle);
                                 //Fim do metodo
 
-                                main.putExtra("nome", nomedocara);
                                 progress.cancel();
                                 startActivity(main);
                             }else {

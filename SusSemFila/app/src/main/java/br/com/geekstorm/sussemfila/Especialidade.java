@@ -1,25 +1,29 @@
 package br.com.geekstorm.sussemfila;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by Sus sem Fila on 10/05/2018.
  */
 
-public class Especialidade {
-    private String id;
+public class Especialidade implements Serializable {
+    private int id;
     private String descricao;
+    ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
 
     public Especialidade(){}
 
-    public Especialidade(String id, String descricao){
+    public Especialidade(int id, String descricao){
         this.id = id;
         this.descricao = descricao;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,4 +34,14 @@ public class Especialidade {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public void addArray(int a, String b){
+        especialidadesArray.add(new Especialidade(a , b));
+    }
+
+    public ArrayList viewArray(){
+
+        return null;
+    }
+
 }

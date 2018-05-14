@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +16,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         nomeusuario = (TextView) findViewById(R.id.Main_nomeuser);
         cpfusuario = (TextView) findViewById(R.id.Main_cpfuser);
-        btsair = (TextView)  findViewById(R.id.Main_sair);
+        btsair = (TextView) findViewById(R.id.Main_sair);
         agendamento = findViewById(R.id.Main_btagendamento);
 
         requestQueue = Volley.newRequestQueue(this);
@@ -52,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
         Paciente usuario = (Paciente) bundle.getSerializable("paciente");
 
         nomeusuario.setText(usuario.getNome());
-        cpfusuario.setText("CPF: "+usuario.getCpf());
+        cpfusuario.setText("CPF: " + usuario.getCpf());
 
         btsair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent sair = new Intent(MainActivity.this,LoginActivity.class);
+                Intent sair = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(sair);
             }
         });
@@ -65,44 +67,50 @@ public class MainActivity extends AppCompatActivity {
         agendamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+                RetornEspecialidade();
+                Intent agendamento = new Intent(MainActivity.this,AgendamentoActivity.class);
+                Bundle bundle = new Bundle();
 
-                public void onResponse(String response) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.names().get(0).equals("confirmado")) {
-                            Intent agendamento = new Intent(MainActivity.this, AgendamentoActivity.class);
+                bundle.putSerializable("especialidade", especialidade);
+                agendamento.putExtra("a2",bundle);
+                //Fim do metodo
+                startActivity(agendamento);
 
-                            String id = jsonObject.getString("id");
-                            String descricao = jsonObject.getString("cpf");
 
-                            //Criando método para passar a Classe pessoa
-                            Bundle bundle = new Bundle();
-                            especialidade = new Especialidade(id, descricao);
 
-                        }else {}
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            }
+        });
+    }
+
+    private void RetornEspecialidade(){
+        request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                String descricao;
+                int id;
+
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        descricao = jsonArray.getJSONObject(i).getString("descricao");
+                        id = jsonArray.getJSONObject(i).getInt("id");
+
+                        especialidade.addArray(id,descricao);
                     }
-
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String, String> hashMap = new HashMap<String, String>();
+            }
+        });
 
-                        return hashMap;
-                    }
-                };
-                requestQueue.add(request);
-            }});
-
-
+        requestQueue.add(request);
+    }
 }
-}
+
+
