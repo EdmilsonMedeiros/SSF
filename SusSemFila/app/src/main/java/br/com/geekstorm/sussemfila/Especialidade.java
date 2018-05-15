@@ -10,13 +10,16 @@ import java.util.ArrayList;
 public class Especialidade implements Serializable {
     private int id;
     private String descricao;
-    ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
 
     public Especialidade(){}
 
     public Especialidade(int id, String descricao){
         this.id = id;
         this.descricao = descricao;
+    }
+
+    public String toString() {
+        return this.descricao;
     }
 
     public int getId() {
@@ -33,15 +36,6 @@ public class Especialidade implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public void addArray(int a, String b){
-        especialidadesArray.add(new Especialidade(a , b));
-    }
-
-    public ArrayList viewArray(){
-
-        return null;
     }
 
 }

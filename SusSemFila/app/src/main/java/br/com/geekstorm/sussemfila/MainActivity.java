@@ -3,6 +3,7 @@ package br.com.geekstorm.sussemfila;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String URLespecialidade = "http://sussemfila.000webhostapp.com/especialidades.php ";
     private StringRequest request;
 
-    private Especialidade especialidade;
+    ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,49 +69,53 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RetornEspecialidade();
-                Intent agendamento = new Intent(MainActivity.this,AgendamentoActivity.class);
-                Bundle bundle = new Bundle();
+                Intent agendamento = new Intent(MainActivity.this, AgendamentoActivity.class);
 
-                bundle.putSerializable("especialidade", especialidade);
-                agendamento.putExtra("a2",bundle);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("especialidade", especialidadesArray);
+                agendamento.putExtra("bundle", bundle);
                 //Fim do metodo
                 startActivity(agendamento);
-
-
 
             }
         });
     }
 
+
     private void RetornEspecialidade(){
         request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                String descricao;
-                int id;
-
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-
                     for(int i = 0; i < jsonArray.length(); i++){
-                        descricao = jsonArray.getJSONObject(i).getString("descricao");
-                        id = jsonArray.getJSONObject(i).getInt("id");
-
-                        especialidade.addArray(id,descricao);
+                        JSONObject objeto = jsonArray.getJSONObject(i);
+                        int id = objeto.getInt("id");
+                        String descricao = objeto.getString("descricao");
+                        Especialidade especialidade = new Especialidade(id,descricao);
+                        especialidadesArray.add(especialidade);
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
-
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                return null;
+            }
+        };
         requestQueue.add(request);
-    }
-}
+    }}
+
 
 
