@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
     Especialidade especialidade;
 
+    int ag = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         agendamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
                         //Fim do metodo
                         startActivity(agendamento);
-
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -110,15 +110,10 @@ public class MainActivity extends AppCompatActivity {
                 requestQueue.add(request);
 
 
-            }
+          }
         });
     }
-
-
-    private void RetornEspecialidade(){
-
-
-}}
+    }
 
 
 

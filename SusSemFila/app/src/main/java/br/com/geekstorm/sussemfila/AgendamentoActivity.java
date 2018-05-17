@@ -9,12 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class AgendamentoActivity extends AppCompatActivity {
 
     private Spinner especialidade;
+    ArrayList<Medico> medico = new ArrayList<>();
 
 
     @Override
@@ -38,12 +40,16 @@ public class AgendamentoActivity extends AppCompatActivity {
         especialidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-             int position, long id) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
 
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapter) {  }
         });
+    }
+
+    public void ShowItem(View view){
+        String nome = especialidade.getSelectedItem().toString();
+        Toast.makeText(this, "Nome escolhido: "+nome, Toast.LENGTH_SHORT).show();
     }
 }
