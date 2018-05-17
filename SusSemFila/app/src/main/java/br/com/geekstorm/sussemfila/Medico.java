@@ -5,6 +5,12 @@ public class Medico {
     private String cpf;
     private Especialidade especialidade;
 
+    public Medico(String nome, String cpf, Especialidade especialidade){
+        this.nome = nome;
+        this.cpf = cpf;
+        this.especialidade = especialidade;
+    }
+
     public String getNome() {
         return nome;
     }

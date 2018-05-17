@@ -11,12 +11,32 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AgendamentoActivity extends AppCompatActivity {
 
-    private Spinner especialidade;
-    ArrayList<Medico> medico = new ArrayList<>();
+    private Spinner especialidade, medico;
+    ArrayList<Medico> arrayMedico = new ArrayList<>();
+    ArrayList<Especialidade> arrayEspecialidade;
+
+    private RequestQueue requestQueue;
+    private static final String URLmedico = "http://sussemfila.000webhostapp.com/especialidades.php ";
+    private StringRequest request;
+
+    Especialidade esp;
 
 
     @Override
@@ -25,15 +45,15 @@ public class AgendamentoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agendamento);
 
         especialidade = (Spinner) findViewById(R.id.Agendamento_especialidade);
-        TextView tx = (TextView) findViewById(R.id.Agendamento_textView);
+        medico = (Spinner) findViewById(R.id.Agendamento_medico);
 
         Intent a = getIntent();
         Bundle bundle = a.getBundleExtra("bundle");
-        ArrayList<Especialidade> especialidadeArray = (ArrayList<Especialidade>) bundle.getSerializable("especialidade");
+        arrayEspecialidade = (ArrayList<Especialidade>) bundle.getSerializable("especialidade");
 
 
 
-        ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(this,android.R.layout.simple_spinner_dropdown_item, especialidadeArray);
+        ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(this,android.R.layout.simple_spinner_dropdown_item, arrayEspecialidade);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         especialidade.setAdapter(adapter);
 
@@ -41,15 +61,64 @@ public class AgendamentoActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
+                    showMedico();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapter) {  }
         });
     }
 
-    public void ShowItem(View view){
+    public void ShowItem(){
+
+        ArrayAdapter<Medico> adapter = new ArrayAdapter<Medico>(this,android.R.layout.simple_spinner_dropdown_item, arrayMedico);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        medico.setAdapter(adapter);
+
+
+
+
+
         String nome = especialidade.getSelectedItem().toString();
-        Toast.makeText(this, "Nome escolhido: "+nome, Toast.LENGTH_SHORT).show();
+        long id = especialidade.getSelectedItemId();
+
     }
+
+   public void showMedico() {
+       /*request = new StringRequest(Request.Method.POST, URLmedico, new Response.Listener<String>() {
+           @Override
+           public void onResponse(String response) {
+               try {
+                   JSONArray jsonArray = new JSONArray(response);
+                   for (int i = 0; i < jsonArray.length(); i++) {
+                       JSONObject objeto = jsonArray.getJSONObject(i);
+                       long especialidademedico = objeto.getInt("idEspecialidade");
+                       for (Especialidade e : arrayEspecialidade) {
+                           if (especialidademedico == e.getId()) {
+                               esp = e;
+                           }
+                       }
+
+                       Medico medico = new Medico(objeto.getString("nome"), objeto.getString("cpf"), esp);
+                       arrayMedico.add(medico);
+                   }
+
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }
+
+           }
+       }, new Response.ErrorListener() {
+           @Override
+           public void onErrorResponse(VolleyError error) {
+
+           }
+       }) {
+           @Override
+           protected Map<String, String> getParams() throws AuthFailureError {
+               HashMap<String, String> hashMap = new HashMap<String, String>();
+               return null;
+           }
+       };
+       requestQueue.add(request);
+*/}
 }
