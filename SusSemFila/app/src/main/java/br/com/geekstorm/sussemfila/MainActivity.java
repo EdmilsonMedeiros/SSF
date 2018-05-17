@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private StringRequest request;
 
     ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
+    Especialidade especialidade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +69,46 @@ public class MainActivity extends AppCompatActivity {
         agendamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RetornEspecialidade();
-                Intent agendamento = new Intent(MainActivity.this, AgendamentoActivity.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("especialidade", especialidadesArray);
-                agendamento.putExtra("bundle", bundle);
-                //Fim do metodo
-                startActivity(agendamento);
+                request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for(int i = 0; i < jsonArray.length(); i++){
+                                JSONObject objeto = jsonArray.getJSONObject(i);
+                                especialidade = new Especialidade(objeto.getInt("id"),objeto.getString("descricao"));
+                                especialidadesArray.add(especialidade);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Intent agendamento = new Intent(MainActivity.this, AgendamentoActivity.class);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("especialidade", especialidadesArray);
+                        agendamento.putExtra("bundle", bundle);
+
+                        //Fim do metodo
+                        startActivity(agendamento);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> hashMap = new HashMap<String, String>();
+                        return null;
+                    }
+                };
+                requestQueue.add(request);
+
 
             }
         });
@@ -83,39 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void RetornEspecialidade(){
-        request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject objeto = jsonArray.getJSONObject(i);
-                        int id = objeto.getInt("id");
-                        String descricao = objeto.getString("descricao");
-                        Especialidade especialidade = new Especialidade(id,descricao);
-                        especialidadesArray.add(especialidade);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> hashMap = new HashMap<String, String>();
-                return null;
-            }
-        };
-        requestQueue.add(request);
-    }}
+}}
 
 
 

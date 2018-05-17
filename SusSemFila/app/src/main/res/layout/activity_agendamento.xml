@@ -42,8 +42,16 @@ tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
             android:layout_width="match_parent"
             android:layout_height="50dp" />
 
-    </LinearLayout>
 
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/Agendamento_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="50px"
+        android:text="Carregando" />
 
 
 </LinearLayout>
