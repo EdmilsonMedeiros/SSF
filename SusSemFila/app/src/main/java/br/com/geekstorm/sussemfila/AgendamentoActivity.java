@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ public class AgendamentoActivity extends AppCompatActivity {
     private StringRequest request;
 
     Especialidade esp;
-
+    Button sair;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class AgendamentoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agendamento);
 
         especialidade = (Spinner) findViewById(R.id.Agendamento_especialidade);
+        sair = (Button) findViewById(R.id.Agendamento_sair);
         medico = (Spinner) findViewById(R.id.Agendamento_medico);
 
         Intent a = getIntent();
@@ -52,73 +54,31 @@ public class AgendamentoActivity extends AppCompatActivity {
         arrayEspecialidade = (ArrayList<Especialidade>) bundle.getSerializable("especialidade");
 
 
-
         ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(this,android.R.layout.simple_spinner_dropdown_item, arrayEspecialidade);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         especialidade.setAdapter(adapter);
+
 
         especialidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                    showMedico();
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapter) {  }
         });
-    }
 
-    public void ShowItem(){
-
-        ArrayAdapter<Medico> adapter = new ArrayAdapter<Medico>(this,android.R.layout.simple_spinner_dropdown_item, arrayMedico);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        medico.setAdapter(adapter);
-
-
+        sair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              finish();
+            }
+        });
 
 
 
-        String nome = especialidade.getSelectedItem().toString();
-        long id = especialidade.getSelectedItemId();
 
     }
 
-   public void showMedico() {
-       /*request = new StringRequest(Request.Method.POST, URLmedico, new Response.Listener<String>() {
-           @Override
-           public void onResponse(String response) {
-               try {
-                   JSONArray jsonArray = new JSONArray(response);
-                   for (int i = 0; i < jsonArray.length(); i++) {
-                       JSONObject objeto = jsonArray.getJSONObject(i);
-                       long especialidademedico = objeto.getInt("idEspecialidade");
-                       for (Especialidade e : arrayEspecialidade) {
-                           if (especialidademedico == e.getId()) {
-                               esp = e;
-                           }
-                       }
-
-                       Medico medico = new Medico(objeto.getString("nome"), objeto.getString("cpf"), esp);
-                       arrayMedico.add(medico);
-                   }
-
-               } catch (JSONException e) {
-                   e.printStackTrace();
-               }
-
-           }
-       }, new Response.ErrorListener() {
-           @Override
-           public void onErrorResponse(VolleyError error) {
-
-           }
-       }) {
-           @Override
-           protected Map<String, String> getParams() throws AuthFailureError {
-               HashMap<String, String> hashMap = new HashMap<String, String>();
-               return null;
-           }
-       };
-       requestQueue.add(request);
-*/}
 }

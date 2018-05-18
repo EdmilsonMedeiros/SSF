@@ -87,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         Intent agendamento = new Intent(MainActivity.this, AgendamentoActivity.class);
+                        agendamento.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        agendamento.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+
 
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("especialidade", especialidadesArray);
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //Fim do metodo
                         startActivity(agendamento);
+                        especialidadesArray.clear();
                     }
                 }, new Response.ErrorListener() {
                     @Override
