@@ -27,7 +27,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     //Objetos de Requisição do servidor
     RequestQueue requestQueue;
-    String insertUrl = "http://sussemfila.000webhostapp.com/settings/Cadastro.php";
+    String insertUrl = "http://sussemfila.000webhostapp.com/Cadastro.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
