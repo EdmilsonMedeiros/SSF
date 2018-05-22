@@ -21,17 +21,20 @@ import java.util.Map;
 
 public class CadastroActivity extends AppCompatActivity {
 
+    //Widgets do Layout
     private EditText nome,endereco, cpf, sus, email, pass;
     private Button botaocadastrar, botaocancelar;
 
+    //Objetos de Requisição do servidor
     RequestQueue requestQueue;
-    String insertUrl = "http://sussemfila.000webhostapp.com/Cadastro.php";
+    String insertUrl = "http://sussemfila.000webhostapp.com/settings/Cadastro.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
+        //Efetuando ligação dos objetos do layout com objetos da classe
         this.nome = findViewById(R.id.Cadastro_nome);
         this.endereco = findViewById(R.id.Cadastro_endereco);
         this.cpf = findViewById(R.id.Cadastro_cpf);
@@ -41,8 +44,12 @@ public class CadastroActivity extends AppCompatActivity {
         this.botaocadastrar = (Button) findViewById(R.id.Cadastro_btcadastrar);
         this.botaocancelar = (Button) findViewById(R.id.Cadastro_btcancelar);
 
+        //Mascarando CPF
+        cpf.addTextChangedListener(MaskUtil.insert(cpf,MaskUtil.MaskType.CPF));
+        //Realizando requisição
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
+        //Botao cadastrar
         botaocadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,8 +61,7 @@ public class CadastroActivity extends AppCompatActivity {
                     StringRequest request =new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Intent voltarlogin = new Intent(CadastroActivity.this,LoginActivity.class);
-                        startActivity(voltarlogin);
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -77,7 +83,7 @@ public class CadastroActivity extends AppCompatActivity {
                     }
                 };
                 requestQueue.add(request);
-
+                finish();
             }
             }
         });
@@ -85,8 +91,7 @@ public class CadastroActivity extends AppCompatActivity {
         botaocancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent voltarlogin = new Intent(CadastroActivity.this, LoginActivity.class);
-                startActivity(voltarlogin);
+                finish();
             }
         });
 

@@ -27,18 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    //Widgets do Layout
     ImageView agendamento;
     TextView nomeusuario, cpfusuario, btsair;
-
-    private RequestQueue requestQueue;
-    private static final String URLespecialidade = "http://sussemfila.000webhostapp.com/especialidades.php ";
-    private StringRequest request;
-
-    ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
-    Especialidade especialidade;
-
-    int ag = 1;
+    //Sistema de Sessão
     private UsuarioSessao sessao;
 
     @Override
@@ -46,30 +38,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Efetuando ligação dos objetos do layout com objetos da classe
         nomeusuario = (TextView) findViewById(R.id.Main_nomeuser);
         cpfusuario = (TextView) findViewById(R.id.Main_cpfuser);
         btsair = (TextView) findViewById(R.id.Main_sair);
         agendamento = findViewById(R.id.Main_btagendamento);
+
         this.sessao = new UsuarioSessao(getApplicationContext());
 
-        requestQueue = Volley.newRequestQueue(this);
-
+        //Restaurando Intent e seus dados
         Intent a = getIntent();
-
         String cpfdocara = a.getStringExtra("nomedocara");
         String nomedocara = a.getStringExtra("cpfdocara");
 
+        //Checando se o usuario esta logado
         if(sessao.checkLogin())
             finish();
 
-
-        // get user data from session
-
+        //Restaura dados do Usuario, caso esteja logado
         HashMap<String, String> user = sessao.getUserDetails();
-
         String nome = user.get(UsuarioSessao.KEY_NOME);
         String cpf = user.get(UsuarioSessao.KEY_CPF);
 
+        //Se o usuario estiver logado pegar seus dados; se não, pegar dados da intent login
         if(this.sessao.isUserLoggedIn()){
             nomeusuario.setText(nome);
             cpfusuario.setText("CPF: " + cpf);
@@ -78,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             cpfusuario.setText("CPF: " + nomedocara);
         }
 
+        //Botao sair
         btsair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,57 +77,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Botao Agendamento
         agendamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            for(int i = 0; i < jsonArray.length(); i++){
-                                JSONObject objeto = jsonArray.getJSONObject(i);
-                                especialidade = new Especialidade(objeto.getInt("id"),objeto.getString("descricao"));
-                                especialidadesArray.add(especialidade);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        Intent agendamento = new Intent(MainActivity.this, AgendamentoActivity.class);
-                        agendamento.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        agendamento.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-
-
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("especialidade", especialidadesArray);
-                        agendamento.putExtra("bundle", bundle);
-
-                        //Fim do metodo
-                        startActivity(agendamento);
-                        especialidadesArray.clear();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String, String> hashMap = new HashMap<String, String>();
-                        return null;
-                    }
-                };
-                requestQueue.add(request);
-
-
+                Intent i = new Intent(MainActivity.this,AgendamentoActivity.class);
+                startActivity(i);
           }
         });
     }
 
+    //Função sair e deletar sessão
     private void logoff(){
         finish();
         this.sessao.logoutUser();

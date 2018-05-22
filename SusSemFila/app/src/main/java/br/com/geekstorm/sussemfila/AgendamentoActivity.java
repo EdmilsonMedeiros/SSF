@@ -18,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,36 +30,47 @@ import java.util.Map;
 
 public class AgendamentoActivity extends AppCompatActivity {
 
+    //Widgets do Layout
     private Spinner especialidade, medico;
-    ArrayList<Medico> arrayMedico = new ArrayList<>();
-    ArrayList<Especialidade> arrayEspecialidade;
-
-    private RequestQueue requestQueue;
-    private static final String URLmedico = "http://sussemfila.000webhostapp.com/especialidades.php ";
-    private StringRequest request;
-
-    Especialidade esp;
     Button sair;
+    //Objetos de Requisição do servidor
+    private RequestQueue requestQueue;
+    private StringRequest request;
+    //Url para onde a requisição será enviada
+    private static final String URLespecialidade = "http://sussemfila.000webhostapp.com/especialidades.php ";
+    //Array e objeto de Especialidade
+    ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
+    Especialidade especialyt;
+    //Sistema de Sessão
+    private UsuarioSessao sessao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agendamento);
 
+        //Efetuando ligação do Objeto Sessão ao Contexto
+        this.sessao = new UsuarioSessao(getApplicationContext());
+        //Checando se o usuario esta logado
+        if(sessao.checkLogin())
+            finish();
+
+        //Ligando requisição do Sistema pelo metodo Volley
+        requestQueue = Volley.newRequestQueue(this);
+        //Executando função para popular Spinner Especialidade
+        this.SpinnerEspecialidade();
+
+        //Efetuando ligação dos objetos do layout com objetos da classe
         especialidade = (Spinner) findViewById(R.id.Agendamento_especialidade);
         sair = (Button) findViewById(R.id.Agendamento_sair);
         medico = (Spinner) findViewById(R.id.Agendamento_medico);
 
-        Intent a = getIntent();
-        Bundle bundle = a.getBundleExtra("bundle");
-        arrayEspecialidade = (ArrayList<Especialidade>) bundle.getSerializable("especialidade");
 
-
-        ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(this,android.R.layout.simple_spinner_dropdown_item, arrayEspecialidade);
+        //Spinner de Especialidade
+        ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(this,android.R.layout.simple_spinner_dropdown_item, especialidadesArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         especialidade.setAdapter(adapter);
-
-
+        //Onclick do Spinner
         especialidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -69,6 +81,7 @@ public class AgendamentoActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapter) {  }
         });
 
+        //Botão Sair
         sair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,8 +90,36 @@ public class AgendamentoActivity extends AppCompatActivity {
         });
 
 
-
-
     }
+    //Função para popular Spinner de Especialidade
+    private void SpinnerEspecialidade(){
+        request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject objeto = jsonArray.getJSONObject(i);
+                        especialyt = new Especialidade(objeto.getInt("id"),objeto.getString("descricao"));
+                        especialidadesArray.add(especialyt);
+                    }
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                return null;
+            }
+        };
+        requestQueue.add(request);
+    }
 }
