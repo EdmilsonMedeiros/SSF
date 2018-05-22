@@ -76,7 +76,7 @@
                 android:id="@+id/Cadastro_pass"
                 style="@style/editText_style_down"
                 android:hint="Senha"
-                android:inputType="text" />
+                android:inputType="number" />
 
 
             <LinearLayout

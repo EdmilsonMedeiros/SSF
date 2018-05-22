@@ -37,7 +37,7 @@
             android:id="@+id/Login_pass"
             style="@style/editText_style_down"
             android:hint="Digite sua Senha"
-            android:inputType="textPassword" />
+            android:inputType="numberPassword" />
 
         <LinearLayout
             android:id="@+id/menub"
