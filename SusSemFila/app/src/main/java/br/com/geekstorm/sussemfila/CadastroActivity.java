@@ -55,9 +55,11 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(nome.getText().toString().isEmpty() || endereco.getText().toString().isEmpty() || cpf.getText().toString().isEmpty() || sus.getText().toString().isEmpty() || email.getText().toString().isEmpty() || pass.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(),"Você não pode Cadastrar sem todas as informações", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(getApplicationContext(),"Você possui campos ainda vazios!", Toast.LENGTH_LONG).show();
                 }else{
+                    if(cpf.length() < 14){
+                        Toast.makeText(getApplicationContext(),"CPF invalido!", Toast.LENGTH_LONG).show();
+                    }else{
                     StringRequest request =new StringRequest(Request.Method.POST, insertUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -84,7 +86,7 @@ public class CadastroActivity extends AppCompatActivity {
                 };
                 requestQueue.add(request);
                 finish();
-            }
+            }}
             }
         });
 

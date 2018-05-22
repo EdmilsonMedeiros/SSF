@@ -99,8 +99,10 @@ public class LoginActivity extends AppCompatActivity {
     private void Login(){
         //Tratamento para campo vazio
         if(user_cpf.getText().toString().isEmpty() || user_senha.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Você não pode acessar sem todas as informações", Toast.LENGTH_LONG).show();
-
+            Toast.makeText(getApplicationContext(), "Você possui campos vazios!", Toast.LENGTH_LONG).show();
+            }else{
+            if(user_cpf.length() < 14){
+                Toast.makeText(getApplicationContext(),"CPF invalido!", Toast.LENGTH_LONG).show();
             }else {
                 //Inicializando Dialog de progresso
                 progress = new ProgressDialog(LoginActivity.this);
@@ -157,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 };
                 requestQueue.add(request);
             }
+        }
         }
 
 

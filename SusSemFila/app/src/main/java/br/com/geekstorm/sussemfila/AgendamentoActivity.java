@@ -41,6 +41,7 @@ public class AgendamentoActivity extends AppCompatActivity {
     //Array e objeto de Especialidade
     ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
     Especialidade especialyt;
+    long idMedico;
     //Sistema de Sessão
     private UsuarioSessao sessao;
 
@@ -75,6 +76,12 @@ public class AgendamentoActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+
+                idMedico = especialidade.getSelectedItemId();
+                /*
+                POPULAR OUTRO SPINNER APARTIR DO RESULTADO
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>([SUA ACTIVITY AQUI].this,android.R.layout.simple_spinner_item, minhalista);
+                */
 
             }
             @Override
@@ -117,6 +124,40 @@ public class AgendamentoActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> hashMap = new HashMap<String, String>();
+                return null;
+            }
+        };
+        requestQueue.add(request);
+    }
+
+    //Spinner medico
+    private void SpinnerMedico(){
+        request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject objeto = jsonArray.getJSONObject(i);
+                        especialyt = new Especialidade(objeto.getInt("id"),objeto.getString("descricao"));
+                        especialidadesArray.add(especialyt);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                /*hashMap.put("idmedico",idMedico);
+                return hashMap;*/
                 return null;
             }
         };
