@@ -41,6 +41,12 @@ public class LoginActivity extends AppCompatActivity {
     private static final String URL = "http://sussemfila.000webhostapp.com/acesso.php ";
     private StringRequest request;
 
+    private UsuarioSessao sessao;
+    private String usuariocpf;
+    private String usuariosenha;
+
+    Intent main;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         this.user_senha = findViewById(R.id.Login_pass);
         this.botao_entrar = (Button) findViewById(R.id.Login_btacessar);
         this.botao_cadastrar = (TextView) findViewById(R.id.Login_btCadastrar);
+        this.sessao = new UsuarioSessao(getApplicationContext());
+        this.main  = new Intent(LoginActivity.this, MainActivity.class);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -64,64 +72,75 @@ public class LoginActivity extends AppCompatActivity {
         botao_entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(user_cpf.getText().toString().isEmpty() || user_senha.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Você não pode acessar sem todas as informações", Toast.LENGTH_LONG).show();
-                }else{
-                    progress = new ProgressDialog(LoginActivity.this);
-                    progress.setTitle("Aguarde...");
-                    progress.show();
-
-                request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            if (jsonObject.names().get(0).equals("confirmado")) {
-                                Intent main = new Intent(LoginActivity.this, MainActivity.class);
-                                nomedocara = jsonObject.getString("nome");
-                                cpfdocara = jsonObject.getString("cpf");
-
-                                //Criando método para passar a Classe pessoa
-                                Bundle bundle = new Bundle();
-                                paciente = new Paciente(nomedocara,cpfdocara);
-
-                                bundle.putSerializable("paciente", paciente);
-                                main.putExtra("a1",bundle);
-                                //Fim do metodo
-
-                                progress.cancel();
-                                startActivity(main);
-                            }else {
-                                progress.cancel();
-                                Toast.makeText(getApplicationContext(), "Error: "+jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        HashMap<String, String> hashMap = new HashMap<String, String>();
-                        hashMap.put("cpf", user_cpf.getText().toString());
-                        hashMap.put("senha", user_senha.getText().toString());
-
-                        return hashMap;
-                    }
-                };
-                requestQueue.add(request);
-            }}
+                        Login();
+                }
         });
 
+        if(this.sessao.isUserLoggedIn()){
+            this.abrirApp();
+        }
+    }
 
+    private void Login(){
+
+        if(user_cpf.getText().toString().isEmpty() || user_senha.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),"Você não pode acessar sem todas as informações", Toast.LENGTH_LONG).show();
+        }else{
+            progress = new ProgressDialog(LoginActivity.this);
+            progress.setTitle("Aguarde...");
+            progress.show();
+
+            request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.names().get(0).equals("confirmado")) {
+
+                            nomedocara = jsonObject.getString("nome");
+                            cpfdocara = jsonObject.getString("cpf");
+
+                            //Criando método para passar a Classe pessoa
+                            Bundle bundle = new Bundle();
+
+                            main.putExtra("nome",nomedocara);
+                            main.putExtra("cpf", cpfdocara);
+                            //Fim do metodo
+                            progress.cancel();
+                            sessao.createUserLoginSession(cpfdocara,nomedocara);
+                            abrirApp();
+                        }else {
+                            progress.cancel();
+                            Toast.makeText(getApplicationContext(), "Error: "+jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> hashMap = new HashMap<String, String>();
+                    hashMap.put("cpf", user_cpf.getText().toString());
+                    hashMap.put("senha", user_senha.getText().toString());
+
+                    return hashMap;
+                }
+            };
+            requestQueue.add(request);
+        }
+
+    }
+
+    private void abrirApp(){
+        startActivity(main);
     }
 }

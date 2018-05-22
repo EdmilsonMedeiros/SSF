@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Especialidade especialidade;
 
     int ag = 1;
+    private UsuarioSessao sessao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +50,38 @@ public class MainActivity extends AppCompatActivity {
         cpfusuario = (TextView) findViewById(R.id.Main_cpfuser);
         btsair = (TextView) findViewById(R.id.Main_sair);
         agendamento = findViewById(R.id.Main_btagendamento);
+        this.sessao = new UsuarioSessao(getApplicationContext());
 
         requestQueue = Volley.newRequestQueue(this);
 
         Intent a = getIntent();
 
-        Bundle bundle = a.getBundleExtra("a1");
-        Paciente usuario = (Paciente) bundle.getSerializable("paciente");
+        String cpfdocara = a.getStringExtra("nomedocara");
+        String nomedocara = a.getStringExtra("cpfdocara");
 
-        nomeusuario.setText(usuario.getNome());
-        cpfusuario.setText("CPF: " + usuario.getCpf());
+        if(sessao.checkLogin())
+            finish();
+
+
+        // get user data from session
+
+        HashMap<String, String> user = sessao.getUserDetails();
+
+        String nome = user.get(UsuarioSessao.KEY_NOME);
+        String cpf = user.get(UsuarioSessao.KEY_CPF);
+
+        if(this.sessao.isUserLoggedIn()){
+            nomeusuario.setText(nome);
+            cpfusuario.setText("CPF: " + cpf);
+        }else{
+            nomeusuario.setText(cpfdocara);
+            cpfusuario.setText("CPF: " + nomedocara);
+        }
 
         btsair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent sair = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(sair);
+               logoff();
             }
         });
 
@@ -117,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
 
           }
         });
+    }
+
+    private void logoff(){
+        finish();
+        this.sessao.logoutUser();
     }
     }
 
