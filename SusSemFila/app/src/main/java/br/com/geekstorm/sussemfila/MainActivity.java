@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     //Widgets do Layout
-    ImageView agendamento;
+    ImageView agendamento, consAgendadas;
     TextView nomeusuario, cpfusuario, btsair;
     //Sistema de Sessão
     private UsuarioSessao sessao;
@@ -43,8 +43,17 @@ public class MainActivity extends AppCompatActivity {
         cpfusuario = (TextView) findViewById(R.id.Main_cpfuser);
         btsair = (TextView) findViewById(R.id.Main_sair);
         agendamento = findViewById(R.id.Main_btagendamento);
+        consAgendadas = findViewById(R.id.Main_btconsultaagendamento);
 
         this.sessao = new UsuarioSessao(getApplicationContext());
+
+        //Abrindo consultas agendadas
+        consAgendadas.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent it = new Intent(MainActivity.this, AgendadasActivity.class);
+                startActivity(it);
+            }
+        });
 
         //Restaurando Intent e seus dados
         Intent a = getIntent();
