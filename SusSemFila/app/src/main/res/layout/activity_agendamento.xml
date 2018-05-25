@@ -44,6 +44,8 @@ tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textAlignment="center"
+            android:textColor="@android:color/black"
+
             />
 
         <Spinner

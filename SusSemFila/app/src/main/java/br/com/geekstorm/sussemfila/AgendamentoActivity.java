@@ -41,7 +41,11 @@ public class AgendamentoActivity extends AppCompatActivity {
     //Array e objeto de Especialidade
     ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
     Especialidade especialyt;
+    //Objetos medico
+    private static final String URLMedicos = "http://sussemfila.000webhostapp.com/medicos.php ";
     long idMedico;
+    ArrayList<Medico> medicoArray = new ArrayList<>();
+    Medico medicolyt;
     //Sistema de Sessão
     private UsuarioSessao sessao;
 
@@ -66,27 +70,9 @@ public class AgendamentoActivity extends AppCompatActivity {
         sair = (Button) findViewById(R.id.Agendamento_sair);
         medico = (Spinner) findViewById(R.id.Agendamento_medico);
 
+        //Spinner de Medico
 
-        //Spinner de Especialidade
-        ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(this,android.R.layout.simple_spinner_dropdown_item, especialidadesArray);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        especialidade.setAdapter(adapter);
-        //Onclick do Spinner
-        especialidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
-                idMedico = especialidade.getSelectedItemId();
-                /*
-                POPULAR OUTRO SPINNER APARTIR DO RESULTADO
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>([SUA ACTIVITY AQUI].this,android.R.layout.simple_spinner_item, minhalista);
-                */
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapter) {  }
-        });
 
         //Botão Sair
         sair.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +84,7 @@ public class AgendamentoActivity extends AppCompatActivity {
 
 
     }
+
     //Função para popular Spinner de Especialidade
     private void SpinnerEspecialidade(){
         request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
@@ -105,12 +92,32 @@ public class AgendamentoActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-                    for(int i = 0; i < jsonArray.length(); i++){
+                    for(int i = 0; i < jsonArray.length(); i++) {
                         JSONObject objeto = jsonArray.getJSONObject(i);
-                        especialyt = new Especialidade(objeto.getInt("id"),objeto.getString("descricao"));
+                        especialyt = new Especialidade(objeto.getInt("id"), objeto.getString("descricao"));
                         especialidadesArray.add(especialyt);
                     }
 
+                    //Spinner de Especialidade
+                    ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(getApplicationContext(),R.layout.spinner_item, especialidadesArray);
+                    adapter.setDropDownViewResource(R.layout.spinner_item);
+                    especialidade.setAdapter(adapter);
+
+                    //Onclick do Spinner
+                    especialidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+
+                            Especialidade a = (Especialidade) especialidade.getSelectedItem();
+
+                            Log.i("TESTE SELECAO", a.toString());
+                            SpinnerMedico(a.getId()+"");
+
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapter) {  }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -131,17 +138,24 @@ public class AgendamentoActivity extends AppCompatActivity {
     }
 
     //Spinner medico
-    private void SpinnerMedico(){
-        request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+    private void SpinnerMedico(final String v){
+
+        request = new StringRequest(Request.Method.POST, URLMedicos, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.i("TESTE JSON MEDICO",response);
                     JSONArray jsonArray = new JSONArray(response);
                     for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject objeto = jsonArray.getJSONObject(i);
-                        especialyt = new Especialidade(objeto.getInt("id"),objeto.getString("descricao"));
-                        especialidadesArray.add(especialyt);
+                        medicolyt = new Medico(objeto.getInt("id"),objeto.getString("nome"));
+                        medicoArray.add(medicolyt);
                     }
+                    Log.i("TESTE SPINNER MEDICO", medicoArray.toString());
+
+                    ArrayAdapter<Medico> adapter2 = new ArrayAdapter<Medico>(AgendamentoActivity.this,R.layout.spinner_item, medicoArray);
+                    adapter2.setDropDownViewResource(R.layout.spinner_item);
+                    medico.setAdapter(adapter2);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -156,8 +170,7 @@ public class AgendamentoActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> hashMap = new HashMap<String, String>();
-                /*hashMap.put("idmedico",idMedico);
-                return hashMap;*/
+                hashMap.put("especialidade", v);
                 return null;
             }
         };

@@ -1,14 +1,12 @@
 package br.com.geekstorm.sussemfila;
 
 public class Medico {
+    private int id;
     private String nome;
-    private String cpf;
-    private Especialidade especialidade;
 
-    public Medico(String nome, String cpf, Especialidade especialidade){
+    public Medico(int id, String nome){
+        this.id = id;
         this.nome = nome;
-        this.cpf = cpf;
-        this.especialidade = especialidade;
     }
 
     public String getNome() {
@@ -19,19 +17,4 @@ public class Medico {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Especialidade getEspecialidade() {
-        return especialidade;
-    }
-
-    public void setEspecialidade(Especialidade especialidade) {
-        this.especialidade = especialidade;
-    }
 }
