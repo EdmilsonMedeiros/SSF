@@ -23,7 +23,8 @@
         <activity android:name=".CadastroActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".AgendamentoActivity" />
-        <activity android:name=".AgendadasActivity"></activity>
+        <activity android:name=".AgendadasActivity" />
+        <activity android:name=".HistoricoActivity"></activity>
     </application>
 
 </manifest>

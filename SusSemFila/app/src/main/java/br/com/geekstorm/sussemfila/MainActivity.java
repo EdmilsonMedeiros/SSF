@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     //Widgets do Layout
-    ImageView agendamento, consAgendadas;
+    ImageView agendamento, consAgendadas, mainBthistorico;
     TextView nomeusuario, cpfusuario, btsair;
     //Sistema de Sessão
     private UsuarioSessao sessao;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btsair = (TextView) findViewById(R.id.Main_sair);
         agendamento = findViewById(R.id.Main_btagendamento);
         consAgendadas = findViewById(R.id.Main_btconsultaagendamento);
+        mainBthistorico = findViewById(R.id.mainBthistorico);
 
         this.sessao = new UsuarioSessao(getApplicationContext());
 
@@ -51,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
         consAgendadas.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent it = new Intent(MainActivity.this, AgendadasActivity.class);
+                startActivity(it);
+            }
+        });
+        //Abrindo histórico
+        mainBthistorico.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent it = new Intent(MainActivity.this, HistoricoActivity.class);
                 startActivity(it);
             }
         });

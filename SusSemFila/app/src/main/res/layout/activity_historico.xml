@@ -4,23 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AgendadasActivity">
+    tools:context=".HistoricoActivity">
 
     <ListView
-        android:id="@+id/lView"
+        android:id="@+id/listViewHistorico"
         android:layout_width="382dp"
         android:layout_height="432dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="132dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageView2"
         android:layout_width="316dp"
         android:layout_height="130dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/botaoconsultaagendadas" />
+        app:srcCompat="@drawable/botaohistorico" />
 </android.support.constraint.ConstraintLayout>
