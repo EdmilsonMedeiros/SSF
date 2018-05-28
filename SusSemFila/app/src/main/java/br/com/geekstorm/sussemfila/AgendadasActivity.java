@@ -19,75 +19,71 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class AgendadasActivity extends AppCompatActivity {
-    private static final String URLespecialidade = "http://sussemfila.000webhostapp.com/agendamentos.php ";
-    ArrayAdapter<String> adapter;
+    //1
+    String urlAdress = "https://sussemfila.000webhostapp.com/listViewShow.php";
+    String[] dataConsulta;
+    String[] especialidade;
+    String[] foto;
     ListView listView;
-    InputStream is=null;
-    String line = null;
-    String result = null;
-    String[] dados;
+    //5
+    String line="null";
+    String result="null";
+    //4
+    BufferedInputStream is;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agendadas);
-        listView = (ListView) findViewById(R.id.listView);
+        //2
+        listView = (ListView) findViewById(R.id.lView);
 
-        //permite network na tread principal
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
-
-        //-------------------
-        try {
-            buscaDados();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //adapter
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dados);
-        listView.setAdapter(adapter);
-        //---------------------------------------------------------------------//
-
-
+        //3---------
+        StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
+        collectData();
+        CustomListView customListView = new CustomListView(this, dataConsulta, especialidade, foto);
+        listView.setAdapter(customListView);
 
     }
-    private void buscaDados() throws JSONException {
-        try {
-            URL url = new URL(URLespecialidade);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+    private void collectData(){//connection-------4
+        try{
+            URL url = new URL(urlAdress);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
             is = new BufferedInputStream(con.getInputStream());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        //lendo o conteudo
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        //content
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             StringBuilder sb = new StringBuilder();
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
+            while ((line=br.readLine()) != null){
+                sb.append(line+"\n");
             }
             is.close();
             result = sb.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-        //json dados
-        try {
+        //JSON
+        try{
             JSONArray ja = new JSONArray(result);
             JSONObject jo = null;
-            dados = new String[ja.length()];
+            dataConsulta = new String[ja.length()];
+            especialidade = new String[ja.length()];
+            foto = new String[ja.length()];
 
-
-            for (int i = 0; i < ja.length(); i++) {
+            for (int i=0; i<=ja.length(); i++){
                 jo = ja.getJSONObject(i);
-                dados[i] = jo.getString("dt_consulta");
+                dataConsulta[i] = jo.getString("dt_consulta");
+                especialidade[i] = jo.getString("descricao");
+                foto[i] = jo.getString("link_profile");
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
         }
-    }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//fim collectData;
 }
