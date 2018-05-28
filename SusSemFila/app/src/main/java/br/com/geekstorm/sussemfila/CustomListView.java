@@ -19,14 +19,16 @@ public class CustomListView extends ArrayAdapter<String> {
     private String[] dataConsulta;
     private String[] especialidade;
     private String[] foto;
+    private String[] statusC;
     private Activity context;
     Bitmap bitmap;
-    public CustomListView(Activity context, String[] dataConsulta, String[] especialidade , String[] foto) {
+    public CustomListView(Activity context, String[] dataConsulta, String[] especialidade , String[] foto, String[] statusC) {
         super(context, R.layout.layout_view, dataConsulta);
         this.context = context;
         this.dataConsulta = dataConsulta;
         this.especialidade = especialidade;
         this.foto = foto;
+        this.statusC = statusC;
     }
     //---------
     @NonNull
@@ -45,6 +47,7 @@ public class CustomListView extends ArrayAdapter<String> {
 
         viewHolder.tvw1.setText(dataConsulta[position]);
         viewHolder.tvw2.setText(especialidade[position]);
+        viewHolder.tvw3.setText(statusC[position]);
         //imageview
         new GetImageFromUrl(viewHolder.ivw).execute(foto[position]);
 
@@ -53,11 +56,13 @@ public class CustomListView extends ArrayAdapter<String> {
     class ViewHolder{
         TextView tvw1;
         TextView tvw2;
+        TextView tvw3;
         ImageView ivw;
 
         ViewHolder(View v){
             tvw1 = (TextView) v.findViewById(R.id.tvData);
             tvw2 = (TextView) v.findViewById(R.id.tvEspecialidade);
+            tvw3 = (TextView) v.findViewById(R.id.tv);
             //imageView
             ivw = (ImageView) v.findViewById(R.id.imageView);
         }

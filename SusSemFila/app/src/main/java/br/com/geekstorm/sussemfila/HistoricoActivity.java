@@ -4,6 +4,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,6 +22,7 @@ public class HistoricoActivity extends AppCompatActivity {
     String[] especialidade;
     String[] foto;
     ListView listViewHistorico;
+    String[] statusC;
     //5
     String line="null";
     String result="null";
@@ -32,11 +34,13 @@ public class HistoricoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_historico);
         //2
         listViewHistorico = (ListView) findViewById(R.id.listViewHistorico);
+        //tvStatusC = findViewById(R.id.tv);
+
 
         //3---------
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
         collectData2();
-        CustomListView customListView = new CustomListView(this, dataConsulta, especialidade, foto);
+        CustomListView customListView = new CustomListView(this, dataConsulta, especialidade, foto, statusC);
         listViewHistorico.setAdapter(customListView);
     }
     private void collectData2(){//connection-------4
@@ -67,12 +71,14 @@ public class HistoricoActivity extends AppCompatActivity {
             JSONObject jo = null;
             dataConsulta = new String[ja.length()];
             especialidade = new String[ja.length()];
+            statusC = new String[ja.length()];
             foto = new String[ja.length()];
 
             for (int i=0; i<=ja.length(); i++){
                 jo = ja.getJSONObject(i);
                 dataConsulta[i] = jo.getString("dt_consulta");
                 especialidade[i] = jo.getString("descricao");
+                statusC[i] = jo.getString("status");
                 foto[i] = jo.getString("link_profile");
             }
         }

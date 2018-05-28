@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +24,7 @@ public class AgendadasActivity extends AppCompatActivity {
     String urlAdress = "https://sussemfila.000webhostapp.com/listViewShow.php";
     String[] dataConsulta;
     String[] especialidade;
+    String[] statusC;
     String[] foto;
     ListView listView;
     //5
@@ -37,11 +39,12 @@ public class AgendadasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agendadas);
         //2
         listView = (ListView) findViewById(R.id.lView);
+        //tvStatusC = findViewById(R.id.tv);
 
         //3---------
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
         collectData();
-        CustomListView customListView = new CustomListView(this, dataConsulta, especialidade, foto);
+        CustomListView customListView = new CustomListView(this, dataConsulta, especialidade, foto, statusC);
         listView.setAdapter(customListView);
 
     }
@@ -73,12 +76,14 @@ public class AgendadasActivity extends AppCompatActivity {
             JSONObject jo = null;
             dataConsulta = new String[ja.length()];
             especialidade = new String[ja.length()];
+            statusC = new String[ja.length()];
             foto = new String[ja.length()];
 
             for (int i=0; i<=ja.length(); i++){
                 jo = ja.getJSONObject(i);
                 dataConsulta[i] = jo.getString("dt_consulta");
                 especialidade[i] = jo.getString("descricao");
+                statusC[i] = jo.getString("status");
                 foto[i] = jo.getString("link_profile");
             }
         }
