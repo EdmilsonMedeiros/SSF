@@ -19,16 +19,16 @@
         android:id="@+id/imageView3"
         android:layout_width="105dp"
         android:layout_height="130dp"
-        android:layout_marginEnd="256dp"
+        android:layout_marginEnd="253dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/botaoconsultaagendadas" />
 
     <TextView
         android:id="@+id/tvNomeUsuario"
-        android:layout_width="190dp"
+        android:layout_width="200dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="78dp"
+        android:layout_marginEnd="45dp"
         android:layout_marginTop="36dp"
         android:text="Nome Usuario"
         android:textColor="@color/black"
@@ -38,9 +38,9 @@
 
     <TextView
         android:id="@+id/tvCpfUsuario"
-        android:layout_width="190dp"
-        android:layout_marginEnd="78dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="45dp"
         android:text="Cpf Usuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNomeUsuario" />
