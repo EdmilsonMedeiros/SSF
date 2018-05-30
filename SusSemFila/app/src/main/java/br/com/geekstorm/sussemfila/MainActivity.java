@@ -27,11 +27,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
     //Widgets do Layout
     ImageView agendamento, consAgendadas, mainBthistorico;
     TextView nomeusuario, cpfusuario, btsair;
     //Sistema de Sessão
-    private UsuarioSessao sessao;
+    UsuarioSessao sessao;
+    String EXTRA_MESSAGE;
+    String EXTRA_MESSAGE2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +54,31 @@ public class MainActivity extends AppCompatActivity {
         //Abrindo consultas agendadas
         consAgendadas.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent it = new Intent(MainActivity.this, AgendadasActivity.class);
-                startActivity(it);
+                if(sessao.isUserLoggedIn()) {
+                    Intent it = new Intent(MainActivity.this, AgendadasActivity.class);
+                    String nomedocara = it.getStringExtra("nomedocara");
+                    String cpfdocara = it.getStringExtra("cpfdocara");
+                    it.putExtra(EXTRA_MESSAGE, nomedocara);
+                    it.putExtra(EXTRA_MESSAGE2, cpfdocara);
+                    startActivity(it);
+                }
             }
         });
         //Abrindo histórico
+
         mainBthistorico.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent it = new Intent(MainActivity.this, HistoricoActivity.class);
-                startActivity(it);
+                if(sessao.isUserLoggedIn()) {
+                    Intent it = new Intent(MainActivity.this, HistoricoActivity.class);
+                    String nomedocara = it.getStringExtra("nomedocara");
+                    String cpfdocara = it.getStringExtra("cpfdocara");
+                    it.putExtra(EXTRA_MESSAGE, nomedocara);
+                    it.putExtra(EXTRA_MESSAGE2, cpfdocara);
+                    startActivity(it);
+                }
             }
         });
+
 
         //Restaurando Intent e seus dados
         Intent a = getIntent();
@@ -78,13 +95,14 @@ public class MainActivity extends AppCompatActivity {
         String cpf = user.get(UsuarioSessao.KEY_CPF);
 
         //Se o usuario estiver logado pegar seus dados; se não, pegar dados da intent login
-        if(this.sessao.isUserLoggedIn()){
-            nomeusuario.setText(nome);
-            cpfusuario.setText("CPF: " + cpf);
-        }else{
-            nomeusuario.setText(cpfdocara);
-            cpfusuario.setText("CPF: " + nomedocara);
-        }
+
+            if (this.sessao.isUserLoggedIn()) {
+                nomeusuario.setText(nome);
+                cpfusuario.setText("CPF: " + cpf);
+            } else {
+                nomeusuario.setText(cpfdocara);
+                cpfusuario.setText("CPF: " + nomedocara);
+            }
 
         //Botao sair
         btsair.setOnClickListener(new View.OnClickListener() {
@@ -102,13 +120,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
           }
         });
+
+
     }
+    //------------------Intent do histórico
+/*
+        public void mainBthistorico (View view){
+        Intent intent = new Intent(this, HistoricoActivity.class);
+        Intent intent2 = new Intent(this, HistoricoActivity.class);
+        String nomedocara = intent.getStringExtra("nomedocara");
+        String cpfdocara = intent2.getStringExtra("cpfdocara");
+        intent.putExtra(EXTRA_MESSAGE, nomedocara);
+        intent2.putExtra(EXTRA_MESSAGE2, cpfdocara);
+        startActivity(intent);
+        startActivity(intent2);
+    }
+    */
 
     //Função sair e deletar sessão
     private void logoff(){
         finish();
         this.sessao.logoutUser();
     }
+
     }
 
 

@@ -1,5 +1,6 @@
 package br.com.geekstorm.sussemfila;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +15,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 public class HistoricoActivity extends AppCompatActivity {
+    TextView tvNomeDoCara;
+    TextView tvCpfDoCara;
+    UsuarioSessao sessao;
     //1
     String urlAdress = "https://sussemfila.000webhostapp.com/listViewHistorico.php";
     String[] dataConsulta;
@@ -32,6 +37,25 @@ public class HistoricoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historico);
+        //pega nome e cpf do usuario logado
+        tvNomeDoCara=(TextView) findViewById(R.id.tvNomeUsuario);
+        tvCpfDoCara=(TextView) findViewById(R.id.tvCpfUsuario);
+        this.sessao = new UsuarioSessao(getApplicationContext());
+        HashMap<String, String> user = sessao.getUserDetails();
+        String nome = user.get(UsuarioSessao.KEY_NOME);
+        String cpf = user.get(UsuarioSessao.KEY_CPF);
+        Intent a = getIntent();
+        String cpfdocara = a.getStringExtra("nomedocara");
+        String nomedocara = a.getStringExtra("cpfdocara");
+        if (this.sessao.isUserLoggedIn()) {
+            tvNomeDoCara.setText(nome);
+            tvCpfDoCara.setText("CPF: " + cpf);
+        } else {
+            tvNomeDoCara.setText(cpfdocara);
+            tvCpfDoCara.setText("CPF: " + nomedocara);
+        }
+
+
         //2
         listViewHistorico = (ListView) findViewById(R.id.listViewHistorico);
         //tvStatusC = findViewById(R.id.tv);
@@ -86,4 +110,8 @@ public class HistoricoActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }//fim collectData;
+    private void logoff(){
+        finish();
+        this.sessao.logoutUser();
+    }
 }

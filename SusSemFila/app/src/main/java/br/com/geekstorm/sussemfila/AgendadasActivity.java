@@ -1,9 +1,11 @@
 package br.com.geekstorm.sussemfila;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 public class AgendadasActivity extends AppCompatActivity {
     //1
@@ -32,11 +35,34 @@ public class AgendadasActivity extends AppCompatActivity {
     String result="null";
     //4
     BufferedInputStream is;
+    //7
+    TextView tvNomeDoCara;
+    TextView tvCpfDoCara;
+    UsuarioSessao sessao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agendadas);
+
+        //6 - pega nome e cpf do usuario logado
+        tvNomeDoCara=(TextView) findViewById(R.id.tvNomeUsuario);
+        tvCpfDoCara=(TextView) findViewById(R.id.tvCpfUsuario);
+        this.sessao = new UsuarioSessao(getApplicationContext());
+        HashMap<String, String> user = sessao.getUserDetails();
+        String nome = user.get(UsuarioSessao.KEY_NOME);
+        String cpf = user.get(UsuarioSessao.KEY_CPF);
+        Intent a = getIntent();
+        String cpfdocara = a.getStringExtra("nomedocara");
+        String nomedocara = a.getStringExtra("cpfdocara");
+        if (this.sessao.isUserLoggedIn()) {
+            tvNomeDoCara.setText(nome);
+            tvCpfDoCara.setText("CPF: " + cpf);
+        } else {
+            tvNomeDoCara.setText(cpfdocara);
+            tvCpfDoCara.setText("CPF: " + nomedocara);
+        }
+
         //2
         listView = (ListView) findViewById(R.id.lView);
         //tvStatusC = findViewById(R.id.tv);
@@ -70,7 +96,7 @@ public class AgendadasActivity extends AppCompatActivity {
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        //JSON
+        //JSON array e Object
         try{
             JSONArray ja = new JSONArray(result);
             JSONObject jo = null;

@@ -26,7 +26,7 @@
             android:layout_marginTop="16dp"
             android:layout_toEndOf="@+id/imageView"
             android:layout_toRightOf="@+id/imageView"
-            android:textColor="#333"
+            android:textColor="#696969"
             android:textSize="22dp"
 
             />
