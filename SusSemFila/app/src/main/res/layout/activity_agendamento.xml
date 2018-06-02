@@ -43,13 +43,20 @@ tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
             android:id="@+id/Agendamento_especialidade"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-
             />
 
         <Spinner
+            android:id="@+id/Agendamento_hospital"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <Spinner
             android:id="@+id/Agendamento_medico"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <Spinner
+            android:id="@+id/Agendamento_date"
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
 

@@ -31,7 +31,7 @@ import java.util.Map;
 public class AgendamentoActivity extends AppCompatActivity {
 
     //Widgets do Layout
-    private Spinner especialidade, medico;
+    private Spinner especialidade, medico, hospital, atendimento;
     Button sair;
     //Objetos de Requisição do servidor
     private RequestQueue requestQueue;
@@ -41,11 +41,23 @@ public class AgendamentoActivity extends AppCompatActivity {
     //Array e objeto de Especialidade
     ArrayList<Especialidade> especialidadesArray = new ArrayList<>();
     Especialidade especialyt;
+
     //Objetos medico
     private static final String URLMedicos = "http://sussemfila.000webhostapp.com/medicos.php ";
     long idMedico;
     ArrayList<Medico> medicoArray = new ArrayList<>();
     Medico medicolyt;
+
+    //Objetos Hospitais
+    private static final String URLHospital = "http://sussemfila.000webhostapp.com/hospitais.php ";
+    Hospital hospitaly;
+    ArrayList<Hospital> hospitalArray = new ArrayList<>();
+
+    //Objeto Horarios
+    private static final String URLHorarios = "http://sussemfila.000webhostapp.com/atendimentos.php ";
+    Atendimento atendimentoly;
+    ArrayList<Atendimento> atendimentoArray = new ArrayList<>();
+
     //Sistema de Sessão
     private UsuarioSessao sessao;
 
@@ -68,10 +80,13 @@ public class AgendamentoActivity extends AppCompatActivity {
         //Efetuando ligação dos objetos do layout com objetos da classe
         especialidade = (Spinner) findViewById(R.id.Agendamento_especialidade);
         sair = (Button) findViewById(R.id.Agendamento_sair);
-        medico = (Spinner) findViewById(R.id.Agendamento_medico);
 
         //Spinner de Medico
-
+        medico = (Spinner) findViewById(R.id.Agendamento_medico);
+        //Spinner do Hospital
+        hospital = (Spinner) findViewById(R.id.Agendamento_hospital);
+        //Spinner Atendimento
+        atendimento = (Spinner) findViewById(R.id.Agendamento_date);
 
 
         //Botão Sair
@@ -110,9 +125,9 @@ public class AgendamentoActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
 
                             Especialidade a = (Especialidade) especialidade.getSelectedItem();
-
-                            Log.i("TESTE SELECAO", a.toString());
-                            SpinnerMedico(a.getId()+"");
+                            hospitalArray.clear();
+                            medicoArray.clear();
+                            SpinnerHospital(a.getId()+"");
 
                         }
                         @Override
@@ -137,26 +152,36 @@ public class AgendamentoActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
 
-    //Spinner medico
-    private void SpinnerMedico(final String v){
-
-        request = new StringRequest(Request.Method.POST, URLMedicos, new Response.Listener<String>() {
+    private void SpinnerHospital(final String v){
+        request = new StringRequest(Request.Method.POST, URLHospital, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.i("TESTE JSON MEDICO",response);
                     JSONArray jsonArray = new JSONArray(response);
-                    for(int i = 0; i < jsonArray.length(); i++){
+                    for(int i = 0; i < jsonArray.length(); i++) {
                         JSONObject objeto = jsonArray.getJSONObject(i);
-                        medicolyt = new Medico(objeto.getInt("id"),objeto.getString("nome"));
-                        medicoArray.add(medicolyt);
+                        hospitaly = new Hospital(objeto.getInt("id"), objeto.getString("descricao"));
+                        hospitalArray.add(hospitaly);
                     }
-                    Log.i("TESTE SPINNER MEDICO", medicoArray.toString());
 
-                    ArrayAdapter<Medico> adapter2 = new ArrayAdapter<Medico>(AgendamentoActivity.this,R.layout.spinner_item, medicoArray);
-                    adapter2.setDropDownViewResource(R.layout.spinner_item);
-                    medico.setAdapter(adapter2);
+                    //Spinner de Especialidade
+                    ArrayAdapter<Hospital> adapter = new ArrayAdapter<Hospital>(getApplicationContext(),R.layout.spinner_item, hospitalArray);
+                    adapter.setDropDownViewResource(R.layout.spinner_item);
+                    hospital.setAdapter(adapter);
 
+                    //Onclick do Spinner
+                    hospital.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                            Hospital h = (Hospital) hospital.getSelectedItem();
+                            medicoArray.clear();
+                            SpinnerMedico(h.getId()+"");
+
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapter) {  }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -171,9 +196,111 @@ public class AgendamentoActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> hashMap = new HashMap<String, String>();
                 hashMap.put("especialidade", v);
-                return null;
+                return hashMap;
             }
         };
         requestQueue.add(request);
     }
+
+    //Spinner medico
+    private void SpinnerMedico(final String v){
+
+        request = new StringRequest(Request.Method.POST, URLMedicos, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    if(jsonArray.length() > 0){
+                        for(int i = 0; i < jsonArray.length(); i++){
+                            JSONObject objeto = jsonArray.getJSONObject(i);
+                            medicolyt = new Medico(objeto.getInt("id"),objeto.getString("nome"));
+                            medicoArray.add(medicolyt);
+                        }
+                    }else{}
+
+                    ArrayAdapter<Medico> adapter2 = new ArrayAdapter<Medico>(AgendamentoActivity.this,R.layout.spinner_item, medicoArray);
+                    adapter2.setDropDownViewResource(R.layout.spinner_item);
+                    medico.setAdapter(adapter2);
+
+                    //Onclick do Spinner
+                    medico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                            Medico m = (Medico) medico.getSelectedItem();
+                            atendimentoArray.clear();
+                            SpinnerAtendimento(m.getId()+"");
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapter) {  }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                hashMap.put("hospital", v);
+                return hashMap;
+            }
+        };
+        requestQueue.add(request);
+    }
+
+    private void SpinnerAtendimento(final String v){
+        request = new StringRequest(Request.Method.POST, URLHorarios, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("Atendimento ", response);
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject objeto = jsonArray.getJSONObject(i);
+                        atendimentoly = new Atendimento(objeto.getInt("id"), objeto.getString("Data"),objeto.getString("Time"));
+                        atendimentoArray.add(atendimentoly);
+                    }
+
+                    //Spinner de Especialidade
+                    ArrayAdapter<Atendimento> adapter = new ArrayAdapter<Atendimento>(getApplicationContext(),R.layout.spinner_item, atendimentoArray);
+                    adapter.setDropDownViewResource(R.layout.spinner_item);
+                    atendimento.setAdapter(adapter);
+
+                    //Onclick do Spinner
+                    atendimento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapter) {  }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                hashMap.put("medico", v);
+                return hashMap;
+            }
+        };
+        requestQueue.add(request);
+
+    }
+
 }
