@@ -1,5 +1,6 @@
 package br.com.geekstorm.sussemfila;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,7 +63,14 @@ public class AgendamentoActivity extends AppCompatActivity {
     private UsuarioSessao sessao;
     //user dates
     String idUsuario;
+    private static final String URLEnviar = "https://sussemfila.000webhostapp.com/setAgendamento.php";
 
+    String gEspecialidade;
+    String gHospital;
+    String gMedico;
+    String gAtendimento;
+
+    ProgressDialog progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +100,6 @@ public class AgendamentoActivity extends AppCompatActivity {
         hospital = (Spinner) findViewById(R.id.Agendamento_hospital);
         //Spinner Atendimento
         atendimento = (Spinner) findViewById(R.id.Agendamento_date);
-
 
         //Botão Sair
         sair.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +131,7 @@ public class AgendamentoActivity extends AppCompatActivity {
                     }
 
                     //Spinner de Especialidade
-                    ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(getApplicationContext(),R.layout.spinner_item, especialidadesArray);
+                    ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, especialidadesArray);
                     adapter.setDropDownViewResource(R.layout.spinner_item);
                     especialidade.setAdapter(adapter);
 
@@ -137,6 +144,7 @@ public class AgendamentoActivity extends AppCompatActivity {
                             Especialidade a = (Especialidade) especialidade.getSelectedItem();
                             hospitalArray.clear();
                             medicoArray.clear();
+                            gEspecialidade = a.getId()+"";
                             SpinnerHospital(a.getId()+"");
 
                         }
@@ -186,6 +194,7 @@ public class AgendamentoActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                             Hospital h = (Hospital) hospital.getSelectedItem();
                             medicoArray.clear();
+                            gHospital = h.getId()+"";
                             SpinnerMedico(h.getId()+"");
 
                         }
@@ -239,6 +248,7 @@ public class AgendamentoActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                             Medico m = (Medico) medico.getSelectedItem();
                             atendimentoArray.clear();
+                            gMedico = m.getId()+"";
                             SpinnerAtendimento(m.getId()+"");
                         }
                         @Override
@@ -287,7 +297,8 @@ public class AgendamentoActivity extends AppCompatActivity {
 
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
+                            Atendimento a = (Atendimento) atendimento.getSelectedItem();
+                            gAtendimento = a.getId()+"";
                         }
                         @Override
                         public void onNothingSelected(AdapterView<?> adapter) {  }
@@ -314,20 +325,29 @@ public class AgendamentoActivity extends AppCompatActivity {
     }
 
     private void cadastrarAgendamento(){
-        final String gEspecialidade = especialidade.getSelectedItemId()+"";
-        final String gHospital = hospital.getSelectedItemId()+"";
-        final String gMedico = medico.getSelectedItemId()+"";
-        final String gAtendimento = atendimento.getSelectedItemId()+"";
+        Log.i("Especialidade", gEspecialidade);
+        Log.i("Hospital", gHospital);
+        Log.i("Medico", gMedico);
+        Log.i("Atendimento", gAtendimento);
 
-        request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+        progress = new ProgressDialog(AgendamentoActivity.this);
+        progress.setTitle("Aguarde...");
+        progress.setMessage("Estamos cadastrando a sua consulta :p");
+        progress.show();
+        progress.setCancelable(false);
+
+        request = new StringRequest(Request.Method.POST, URLEnviar, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.names().get(0).equals("confirmado")) {
-
+                        progress.dismiss();
+                        Toast.makeText(getApplicationContext(),"Consulta Cadastrada!", Toast.LENGTH_LONG).show();
+                        finish();
                     } else {
 
+                        Toast.makeText(getApplicationContext(),"Erro ao Cadastrar a Consulta!", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -342,12 +362,12 @@ public class AgendamentoActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> hashMap = new HashMap<String, String>();
-                Log.i("HASHMAP", hashMap.toString());
                 hashMap.put("especialidade", gEspecialidade);
                 hashMap.put("hospital", gHospital);
                 hashMap.put("medico", gMedico);
                 hashMap.put("atendimento", gAtendimento);
                 hashMap.put("paciente",idUsuario);
+                Log.i("HASHMAP", hashMap.toString());
                 return hashMap;
             }
         };

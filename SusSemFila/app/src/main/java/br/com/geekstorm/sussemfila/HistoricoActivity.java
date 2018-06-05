@@ -44,6 +44,7 @@ public class HistoricoActivity extends AppCompatActivity {
         HashMap<String, String> user = sessao.getUserDetails();
         String nome = user.get(UsuarioSessao.KEY_NOME);
         String cpf = user.get(UsuarioSessao.KEY_CPF);
+        String idUsuario = user.get(UsuarioSessao.KEY_ID);
         Intent a = getIntent();
         String cpfdocara = a.getStringExtra("nomedocara");
         String nomedocara = a.getStringExtra("cpfdocara");

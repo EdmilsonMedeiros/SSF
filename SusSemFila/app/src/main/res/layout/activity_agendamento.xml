@@ -5,11 +5,11 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/activty_login"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:paddingBottom="@dimen/activity_vertical_margin_main"
-android:paddingLeft="@dimen/activity_horizontal_margin_main"
-android:paddingRight="@dimen/activity_horizontal_margin_main"
-android:paddingTop="@dimen/activity_vertical_margin_main"
-android:background="@color/white"
+android:paddingBottom="@dimen/activiy_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activiy_vertical_margin"
+android:background="@color/colorPrimary"
 tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
 
 <LinearLayout
@@ -20,15 +20,20 @@ tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
     android:layout_centerHorizontal="true"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/Agendamento_head"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/teste"
-        android:orientation="horizontal">
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/teste" />
 
-    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AGENDAR"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        />
 
     <LinearLayout
         android:id="@+id/Agendamento_a"
@@ -60,17 +65,28 @@ tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
 
-        <Button
-            android:id="@+id/Agendamento_enviar"
+        <LinearLayout
+            android:id="@+id/menub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cadastrar" />
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/Agendamento_sair"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SAIR" />
+            <Button
+                android:id="@+id/Agendamento_enviar"
+                style="@style/button_left"
+                android:layout_weight="1"
+                android:text="Agendar" />
+
+            <Button
+                android:id="@+id/Agendamento_sair"
+                style="@style/button_right"
+                android:layout_width="0dp"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="2"
+                android:text="Sair" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

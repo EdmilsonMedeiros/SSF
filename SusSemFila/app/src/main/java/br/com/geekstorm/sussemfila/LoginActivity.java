@@ -107,7 +107,9 @@ public class LoginActivity extends AppCompatActivity {
                 //Inicializando Dialog de progresso
                 progress = new ProgressDialog(LoginActivity.this);
                 progress.setTitle("Aguarde...");
+                progress.setMessage("Estamos verificando seus dados :p");
                 progress.show();
+                progress.setCancelable(false);
                 //Efetuando a requisao para o sistema
                 request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     //Metodo de resposta da requisição
