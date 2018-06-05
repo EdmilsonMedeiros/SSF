@@ -3,6 +3,7 @@ package br.com.geekstorm.sussemfila;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -26,6 +27,8 @@ public class UsuarioSessao {
 
     public static final String KEY_NOME = "nome";
 
+    public static final String KEY_ID = "id";
+
     // Constructor
     public UsuarioSessao(Context context){
         this.context = context;
@@ -34,7 +37,7 @@ public class UsuarioSessao {
     }
 
     //Create login session
-    public void createUserLoginSession(String cpf, String nome){
+    public void createUserLoginSession(String cpf, String nome, int id){
         // Storing login value as TRUE
         editor.putBoolean(IS_USER_LOGIN, true);
 
@@ -43,6 +46,10 @@ public class UsuarioSessao {
 
         // Storing senha in pref
         editor.putString(KEY_NOME, nome);
+
+        // Storing id in pref
+        editor.putString(KEY_ID, id+"");
+
 
         // commit changes
         editor.commit();
@@ -90,6 +97,9 @@ public class UsuarioSessao {
         // user name
         user.put(KEY_NOME, pref.getString(KEY_NOME, null));
 
+        // user id
+        user.put(KEY_ID, pref.getString(KEY_ID, null));
+        Log.i("Key id", user.get(KEY_ID));
         // return user
         return user;
     }

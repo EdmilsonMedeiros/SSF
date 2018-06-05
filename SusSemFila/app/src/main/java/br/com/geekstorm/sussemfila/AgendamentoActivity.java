@@ -32,7 +32,7 @@ public class AgendamentoActivity extends AppCompatActivity {
 
     //Widgets do Layout
     private Spinner especialidade, medico, hospital, atendimento;
-    Button sair;
+    Button cadastrar, sair;
     //Objetos de Requisição do servidor
     private RequestQueue requestQueue;
     private StringRequest request;
@@ -60,6 +60,8 @@ public class AgendamentoActivity extends AppCompatActivity {
 
     //Sistema de Sessão
     private UsuarioSessao sessao;
+    //user dates
+    String idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,9 @@ public class AgendamentoActivity extends AppCompatActivity {
         if(sessao.checkLogin())
             finish();
 
+        HashMap<String, String> user = sessao.getUserDetails();
+        idUsuario = user.get(UsuarioSessao.KEY_ID);
+
         //Ligando requisição do Sistema pelo metodo Volley
         requestQueue = Volley.newRequestQueue(this);
         //Executando função para popular Spinner Especialidade
@@ -80,7 +85,7 @@ public class AgendamentoActivity extends AppCompatActivity {
         //Efetuando ligação dos objetos do layout com objetos da classe
         especialidade = (Spinner) findViewById(R.id.Agendamento_especialidade);
         sair = (Button) findViewById(R.id.Agendamento_sair);
-
+        cadastrar = (Button) findViewById(R.id.Agendamento_enviar);
         //Spinner de Medico
         medico = (Spinner) findViewById(R.id.Agendamento_medico);
         //Spinner do Hospital
@@ -96,7 +101,12 @@ public class AgendamentoActivity extends AppCompatActivity {
               finish();
             }
         });
-
+        cadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cadastrarAgendamento();
+            }
+        });
 
     }
 
@@ -303,4 +313,46 @@ public class AgendamentoActivity extends AppCompatActivity {
 
     }
 
+    private void cadastrarAgendamento(){
+        final String gEspecialidade = especialidade.getSelectedItemId()+"";
+        final String gHospital = hospital.getSelectedItemId()+"";
+        final String gMedico = medico.getSelectedItemId()+"";
+        final String gAtendimento = atendimento.getSelectedItemId()+"";
+
+        request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.names().get(0).equals("confirmado")) {
+
+                    } else {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                Log.i("HASHMAP", hashMap.toString());
+                hashMap.put("especialidade", gEspecialidade);
+                hashMap.put("hospital", gHospital);
+                hashMap.put("medico", gMedico);
+                hashMap.put("atendimento", gAtendimento);
+                hashMap.put("paciente",idUsuario);
+                return hashMap;
+            }
+        };
+        requestQueue.add(request);
+
+
+    }
 }

@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView botao_cadastrar;
     private String nomedocara = "";
     private String cpfdocara = "";
-
+    private int iddocara;
     //Widget Dialog progress
     ProgressDialog progress;
 
@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //Pegando dados do Objeto Json
                                 nomedocara = jsonObject.getString("nome");
                                 cpfdocara = jsonObject.getString("cpf");
+                                iddocara = jsonObject.getInt("id");
 
                                 //Criando objeto para enviar o nome e cpf do cara para outra intent
                                 Bundle bundle = new Bundle();
@@ -127,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //Finalizando dialog
                                 progress.cancel();
                                 //Criando uma sessão para o usuario
-                                sessao.createUserLoginSession(cpfdocara, nomedocara);
+                                sessao.createUserLoginSession(cpfdocara, nomedocara,iddocara);
                                 //Abrindo app
                                 abrirApp();
                             } else {
