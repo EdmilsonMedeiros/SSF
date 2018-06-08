@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "21341947310",
+    "firebase_url": "https://sussemfila.firebaseio.com",
+    "project_id": "sussemfila",
+    "storage_bucket": "sussemfila.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21341947310:android:4b37d0ba8d0d3569",
+        "android_client_info": {
+          "package_name": "br.com.geekstorm.sussemfila"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21341947310-6r96km4c0an8r2rgs495ac331la7ss7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.geekstorm.sussemfila",
+            "certificate_hash": "da084e0988287dd8b4149ea33f6733c818b9f825"
+          }
+        },
+        {
+          "client_id": "21341947310-oef769sjhiodko17ckq4faulia5lb16v.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "21341947310-oef769sjhiodko17ckq4faulia5lb16v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVzcFDDasRobjao8ce1iSygCRlPGoYR-A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21341947310-oef769sjhiodko17ckq4faulia5lb16v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
