@@ -1,101 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activty_login"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="@dimen/activiy_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activiy_vertical_margin"
-android:background="@color/colorPrimary"
-tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
-
-<LinearLayout
-    android:id="@+id/menuprincipal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activty_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    android:orientation="vertical">
+
+
+    tools:context="br.com.geekstorm.sussemfila.AgendamentoActivity">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:srcCompat="@drawable/teste" />
+        android:id="@+id/imageView3"
+        android:layout_width="105dp"
+        android:layout_height="130dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/botaoagendamento" />
 
     <TextView
-        android:layout_width="match_parent"
+
+        android:id="@+id/tvNomeUsuario"
+        android:layout_width="200dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="29dp"
+        android:layout_marginTop="49dp"
+        android:text="Nome Usuario"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCpfUsuario"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="AGENDAR"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:textAlignment="center"
-        />
+        android:layout_alignStart="@+id/tvNomeUsuario"
+        android:layout_below="@+id/tvNomeUsuario"
+        android:text="Cpf Usuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNomeUsuario" />
 
     <LinearLayout
-        android:id="@+id/Agendamento_a"
+        android:id="@+id/menuprincipal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="vertical">
-
-        <Spinner
-            android:id="@+id/Agendamento_especialidade"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            />
-
-        <Spinner
-            android:id="@+id/Agendamento_hospital"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-
-        <Spinner
-            android:id="@+id/Agendamento_medico"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-
-        <Spinner
-            android:id="@+id/Agendamento_date"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+        android:layout_height="331dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="112dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="154dp">
 
         <LinearLayout
-            android:id="@+id/menub"
+            android:id="@+id/Agendamento_a"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:layout_height="323dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/Agendamento_enviar"
-                style="@style/button_left"
-                android:layout_weight="1"
-                android:text="Agendar" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:background="?android:attr/listDivider"
+                />
 
-            <Button
-                android:id="@+id/Agendamento_sair"
-                style="@style/button_right"
-                android:layout_width="0dp"
-                android:layout_alignParentBottom="true"
-                android:layout_weight="2"
-                android:text="Sair" />
+            <Spinner
+                android:id="@+id/Agendamento_especialidade"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+
+                />
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:background="?android:attr/listDivider" />
+
+            <Spinner
+                android:id="@+id/Agendamento_hospital"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:background="?android:attr/listDivider" />
+
+            <Spinner
+                android:id="@+id/Agendamento_medico"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:background="?android:attr/listDivider" />
+
+            <Spinner
+                android:id="@+id/Agendamento_date"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:id="@+id/menub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="75dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Agendamento_enviar"
+                    style="@style/button_left"
+                    android:layout_weight="1"
+                    android:text="Agendar" />
+
+                <Button
+                    android:id="@+id/Agendamento_sair"
+                    style="@style/button_right"
+                    android:layout_width="0dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_weight="2"
+                    android:text="Sair" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
     </LinearLayout>
-
-
-
-</LinearLayout>
-
-
 
 
 </RelativeLayout>

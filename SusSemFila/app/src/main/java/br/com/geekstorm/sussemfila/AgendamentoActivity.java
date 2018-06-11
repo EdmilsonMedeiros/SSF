@@ -30,7 +30,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AgendamentoActivity extends AppCompatActivity {
-
+    TextView tvNomeDoCara;
+    TextView tvCpfDoCara;
+    UsuarioSessao sessao2;
     //Widgets do Layout
     private Spinner especialidade, medico, hospital, atendimento;
     Button cadastrar, sair;
@@ -75,6 +77,27 @@ public class AgendamentoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agendamento);
+        //----------------------
+        tvCpfDoCara = (TextView) findViewById(R.id.tvCpfUsuario);
+        tvNomeDoCara = (TextView) findViewById(R.id.tvNomeUsuario);
+
+        this.sessao2 = new UsuarioSessao(getApplicationContext());
+        HashMap<String, String> user2 = sessao2.getUserDetails();
+        String nome = user2.get(UsuarioSessao.KEY_NOME);
+        String cpf = user2.get(UsuarioSessao.KEY_CPF);
+        String idUsuario = user2.get(UsuarioSessao.KEY_ID);
+        Intent a = getIntent();
+        String cpfdocara = a.getStringExtra("nomedocara");
+        String nomedocara = a.getStringExtra("cpfdocara");
+        if (this.sessao2.isUserLoggedIn()) {
+            tvNomeDoCara.setText(nome);
+            tvCpfDoCara.setText("CPF: " + cpf);
+        } else {
+            tvNomeDoCara.setText(cpfdocara);
+            tvCpfDoCara.setText("CPF: " + nomedocara);
+        }
+        //----------------------
+
 
         //Efetuando ligação do Objeto Sessão ao Contexto
         this.sessao = new UsuarioSessao(getApplicationContext());
@@ -131,7 +154,7 @@ public class AgendamentoActivity extends AppCompatActivity {
                     }
 
                     //Spinner de Especialidade
-                    ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, especialidadesArray);
+                    ArrayAdapter<Especialidade> adapter = new ArrayAdapter<Especialidade>(getApplicationContext(),R.layout.spinner_item, especialidadesArray);
                     adapter.setDropDownViewResource(R.layout.spinner_item);
                     especialidade.setAdapter(adapter);
 

@@ -29,7 +29,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     //Widgets do Layout
-    ImageView agendamento, consAgendadas, mainBthistorico;
+    ImageView agendamento, consAgendadas, mainBthistorico, Main_btconfiguracao;
     TextView nomeusuario, cpfusuario, btsair;
     //Sistema de Sessão
     UsuarioSessao sessao;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         agendamento = findViewById(R.id.Main_btagendamento);
         consAgendadas = findViewById(R.id.Main_btconsultaagendamento);
         mainBthistorico = findViewById(R.id.mainBthistorico);
+        Main_btconfiguracao = findViewById(R.id.Main_btconfiguracao);
 
         this.sessao = new UsuarioSessao(getApplicationContext());
 
@@ -76,6 +77,18 @@ public class MainActivity extends AppCompatActivity {
                     it.putExtra(EXTRA_MESSAGE2, cpfdocara);
                     startActivity(it);
                 }
+            }
+        });
+        //Configurações
+        Main_btconfiguracao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, ConfigActivity.class);
+                String nomedocara = it.getStringExtra("nomedocara");
+                String cpfdocara = it.getStringExtra("cpfdocara");
+                it.putExtra(EXTRA_MESSAGE, nomedocara);
+                it.putExtra(EXTRA_MESSAGE2, cpfdocara);
+                startActivity(it);
             }
         });
 
