@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/teste"
+            android:background="@drawable/logomain"
             android:orientation="horizontal">
 
         </LinearLayout>
@@ -41,14 +41,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/botaoagendamento" />
+                app:srcCompat="@drawable/bnagendar" />
 
             <ImageView
                 android:id="@+id/Main_btconsultaagendamento"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/botaoconsultaagendadas" />
+                app:srcCompat="@drawable/bnagendamentos" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +61,7 @@
                 android:id="@+id/Main_btconfiguracao"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/botaoconfiguracoes"
+                app:srcCompat="@drawable/bnconfiguracao"
                 android:layout_weight="1"/>
 
             <ImageView
@@ -70,7 +70,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="mainBthistorico"
-                app:srcCompat="@drawable/botaohistorico" />
+                app:srcCompat="@drawable/bnhistorico" />
 
         </LinearLayout>
 

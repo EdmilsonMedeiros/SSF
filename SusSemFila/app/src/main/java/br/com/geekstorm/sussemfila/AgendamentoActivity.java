@@ -81,15 +81,16 @@ public class AgendamentoActivity extends AppCompatActivity {
         tvCpfDoCara = (TextView) findViewById(R.id.tvCpfUsuario);
         tvNomeDoCara = (TextView) findViewById(R.id.tvNomeUsuario);
 
-        this.sessao2 = new UsuarioSessao(getApplicationContext());
-        HashMap<String, String> user2 = sessao2.getUserDetails();
-        String nome = user2.get(UsuarioSessao.KEY_NOME);
-        String cpf = user2.get(UsuarioSessao.KEY_CPF);
-        String idUsuario = user2.get(UsuarioSessao.KEY_ID);
+        this.sessao = new UsuarioSessao(getApplicationContext());
+        HashMap<String, String> user = sessao.getUserDetails();
+        String nome = user.get(UsuarioSessao.KEY_NOME);
+        String cpf = user.get(UsuarioSessao.KEY_CPF);
+        idUsuario = user.get(UsuarioSessao.KEY_ID);
+
         Intent a = getIntent();
         String cpfdocara = a.getStringExtra("nomedocara");
         String nomedocara = a.getStringExtra("cpfdocara");
-        if (this.sessao2.isUserLoggedIn()) {
+        if (this.sessao.isUserLoggedIn()) {
             tvNomeDoCara.setText(nome);
             tvCpfDoCara.setText("CPF: " + cpf);
         } else {
@@ -97,16 +98,12 @@ public class AgendamentoActivity extends AppCompatActivity {
             tvCpfDoCara.setText("CPF: " + nomedocara);
         }
         //----------------------
-
-
         //Efetuando ligação do Objeto Sessão ao Contexto
         this.sessao = new UsuarioSessao(getApplicationContext());
+
         //Checando se o usuario esta logado
         if(sessao.checkLogin())
             finish();
-
-        HashMap<String, String> user = sessao.getUserDetails();
-        idUsuario = user.get(UsuarioSessao.KEY_ID);
 
         //Ligando requisição do Sistema pelo metodo Volley
         requestQueue = Volley.newRequestQueue(this);
@@ -142,6 +139,9 @@ public class AgendamentoActivity extends AppCompatActivity {
 
     //Função para popular Spinner de Especialidade
     private void SpinnerEspecialidade(){
+
+        Especialidade e1 = new Especialidade(0,"Especialidade");
+        especialidadesArray.add(e1);
         request = new StringRequest(Request.Method.POST, URLespecialidade, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -194,6 +194,9 @@ public class AgendamentoActivity extends AppCompatActivity {
     }
 
     private void SpinnerHospital(final String v){
+
+        Hospital h1 = new Hospital(0,"Hospital");
+        hospitalArray.add(h1);
         request = new StringRequest(Request.Method.POST, URLHospital, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -246,7 +249,8 @@ public class AgendamentoActivity extends AppCompatActivity {
 
     //Spinner medico
     private void SpinnerMedico(final String v){
-
+        Medico m1 = new Medico(0,"Medico");
+        medicoArray.add(m1);
         request = new StringRequest(Request.Method.POST, URLMedicos, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

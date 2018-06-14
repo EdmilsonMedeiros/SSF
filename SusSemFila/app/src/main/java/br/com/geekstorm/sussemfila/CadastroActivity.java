@@ -20,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,8 @@ public class CadastroActivity extends AppCompatActivity {
     //Objetos de Requisição do servidor
     RequestQueue requestQueue;
     String insertUrl = "http://sussemfila.000webhostapp.com/Cadastro.php";
+
+    RemoteMessage remoteMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class CadastroActivity extends AppCompatActivity {
         this.botaocancelar = (Button) findViewById(R.id.Cadastro_btcancelar);
 
         final String tokenUser = FirebaseInstanceId.getInstance().getToken();
+
 
         //Mascarando CPF
         cpf.addTextChangedListener(MaskUtil.insert(cpf,MaskUtil.MaskType.CPF));
@@ -93,7 +98,8 @@ public class CadastroActivity extends AppCompatActivity {
                     }
                 };
                 requestQueue.add(request);
-                finish();
+                //FirebaseMessaging.getInstance().subscribeToTopic("Cadastro");
+                    finish();
             }}
             }
         });

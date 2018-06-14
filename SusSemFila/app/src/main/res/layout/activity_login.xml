@@ -30,14 +30,16 @@
         <EditText
             android:id="@+id/Login_cpf"
             style="@style/editText_style_top"
-            android:hint="Digite seu CPF"
-            android:inputType="number" />
+            android:hint="CPF"
+            android:inputType="number"
+            android:gravity="center"/>
 
         <EditText
             android:id="@+id/Login_pass"
             style="@style/editText_style_down"
-            android:hint="Digite sua Senha"
-            android:inputType="numberPassword" />
+            android:hint="SENHA"
+            android:inputType="numberPassword"
+            android:gravity="center"/>
 
         <LinearLayout
             android:id="@+id/menub"

@@ -32,14 +32,15 @@
             <EditText
                 android:id="@+id/Cadastro_nome"
                 style="@style/editText_style_top"
+                android:focusable="auto"
                 android:hint="Nome e sobrenome"
-                android:inputType="text" />
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/Cadastro_endereco"
                 style="@style/editText_style_center"
                 android:hint="CEP"
-                android:inputType="text" />
+                android:inputType="number" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,7 +71,7 @@
                 android:id="@+id/Cadastro_email"
                 style="@style/editText_style_center"
                 android:hint="Email"
-                android:inputType="text" />
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/Cadastro_pass"

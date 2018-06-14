@@ -40,6 +40,8 @@ public class AgendadasActivity extends AppCompatActivity {
     TextView tvCpfDoCara;
     UsuarioSessao sessao;
 
+    String idUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,7 @@ public class AgendadasActivity extends AppCompatActivity {
         String nome = user.get(UsuarioSessao.KEY_NOME);
         String cpf = user.get(UsuarioSessao.KEY_CPF);
         String idUsuario = user.get(UsuarioSessao.KEY_ID);
+        idUser = idUsuario;
         Intent a = getIntent();
         String cpfdocara = a.getStringExtra("nomedocara");
         String nomedocara = a.getStringExtra("cpfdocara");
@@ -80,6 +83,7 @@ public class AgendadasActivity extends AppCompatActivity {
             URL url = new URL(urlAdress);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
+
             is = new BufferedInputStream(con.getInputStream());
         }
         catch (Exception ex){

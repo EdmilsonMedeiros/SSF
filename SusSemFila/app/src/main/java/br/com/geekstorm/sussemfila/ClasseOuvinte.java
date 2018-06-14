@@ -96,7 +96,7 @@ public class ClasseOuvinte extends FirebaseMessagingService {
 
                 Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
 
-                sendNotification(remoteMessage.getData().get("natan"), remoteMessage.getNotification().getBody());
+                sendNotification(remoteMessage.getData().get("Cadastro"), remoteMessage.getNotification().getBody());
 
             }
 
@@ -109,8 +109,6 @@ public class ClasseOuvinte extends FirebaseMessagingService {
         }
 
         // [END receive_message]
-
-
 
 
 
