@@ -1,18 +1,16 @@
 package br.com.geekstorm.sussemfila;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,12 +20,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class LoginActivity extends AppCompatActivity {
     //Widgets do Layout
@@ -51,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
     //Variaveis do usuario
     private String usuariocpf;
     private String usuariosenha;
+
+    private AlertDialog alerta;
+    private static final String TAG = "LoginActivity";
 
     //Iniciando Intent para proxima tela
     Intent main;
@@ -97,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         if(this.sessao.isUserLoggedIn()){
             this.abrirApp();
         }
+
     }
 
     //Função para enviar requisição para o servidor com os dados e retornar informações do usuario
@@ -122,21 +125,26 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.names().get(0).equals("confirmado")) {
-                                //Pegando dados do Objeto Json
-                                nomedocara = jsonObject.getString("nome");
-                                cpfdocara = jsonObject.getString("cpf");
-                                iddocara = jsonObject.getInt("id");
+                                String suporte = jsonObject.getString("suporte");
+                                if(!suporte.equals("1.4")){
+                                       suportedesativado();
+                                }else {
+                                    //Pegando dados do Objeto Json
+                                    nomedocara = jsonObject.getString("nome");
+                                    cpfdocara = jsonObject.getString("cpf");
+                                    iddocara = jsonObject.getInt("id");
 
-                                //Criando objeto para enviar o nome e cpf do cara para outra intent
-                                Bundle bundle = new Bundle();
-                                main.putExtra("nome", nomedocara);
-                                main.putExtra("cpf", cpfdocara);
-                                //Finalizando dialog
-                                progress.cancel();
-                                //Criando uma sessão para o usuario
-                                sessao.createUserLoginSession(cpfdocara, nomedocara,iddocara);
-                                //Abrindo app
-                                abrirApp();
+                                    //Criando objeto para enviar o nome e cpf do cara para outra intent
+                                    Bundle bundle = new Bundle();
+                                    main.putExtra("nome", nomedocara);
+                                    main.putExtra("cpf", cpfdocara);
+                                    //Finalizando dialog
+                                    progress.cancel();
+                                    //Criando uma sessão para o usuario
+                                    sessao.createUserLoginSession(cpfdocara, nomedocara, iddocara);
+                                    //Abrindo app
+                                    abrirApp();
+                                }
                             } else {
                                 progress.cancel();
                                 Toast.makeText(getApplicationContext(), "Error: " + jsonObject.getString("error"), Toast.LENGTH_SHORT).show();
@@ -174,4 +182,25 @@ public class LoginActivity extends AppCompatActivity {
     private void abrirApp(){
         startActivity(main);
     }
+
+    private void suportedesativado() {
+        //LayoutInflater é utilizado para inflar nosso layout em uma view.
+        //-pegamos nossa instancia da classe
+        LayoutInflater li = getLayoutInflater();
+
+        //inflamos o layout alerta.xml na view
+        View view = li.inflate(R.layout.dialog, null);
+        //definimos para o botão do layout um clickListener
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.dialog);
+        builder.setTitle("Comunicado!");
+        builder.setIcon(R.drawable.logomain);
+        builder.setMessage("Está versão do SUS SEM FILA está desatualizada. Por motivos de politica direcionadas ao projeto, a equipe não oferece mais suporte a esta versão.");
+        builder.setView(view);
+        alerta = builder.create();
+        alerta.show();
+        alerta.setCancelable(false);
+    }
+
 }
