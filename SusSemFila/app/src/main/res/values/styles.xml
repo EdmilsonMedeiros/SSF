@@ -11,7 +11,7 @@
     <!--<style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
     <style name="versioninfor">
-        <item name="android:text">Versão 1.0.4</item>
+        <item name="android:text">Versão 1.0.5</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAlignment">center</item>

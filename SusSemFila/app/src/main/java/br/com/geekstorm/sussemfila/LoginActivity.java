@@ -91,8 +91,8 @@ public class LoginActivity extends AppCompatActivity {
         botao_entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                        Login();
-                }
+                Login();
+            }
         });
 
         //Checando se o usuario possui sessão. Se sim, abrir app
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         //Tratamento para campo vazio
         if(user_cpf.getText().toString().isEmpty() || user_senha.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Você possui campos vazios!", Toast.LENGTH_LONG).show();
-            }else{
+        }else{
             if(user_cpf.length() < 14){
                 Toast.makeText(getApplicationContext(),"CPF invalido!", Toast.LENGTH_LONG).show();
             }else {
@@ -126,8 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.names().get(0).equals("confirmado")) {
                                 String suporte = jsonObject.getString("suporte");
-                                if(!suporte.equals("1.4")){
-                                       suportedesativado();
+                                if(!suporte.equals("1.5")){
+                                    suportedesativado();
                                 }else {
                                     //Pegando dados do Objeto Json
                                     nomedocara = jsonObject.getString("nome");
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                 requestQueue.add(request);
             }
         }
-        }
+    }
 
 
     //Funcao para abrir a tela main

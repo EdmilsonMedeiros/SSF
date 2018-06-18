@@ -1,6 +1,8 @@
 package br.com.geekstorm.sussemfila;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,54 +63,68 @@ public class AgendadasActivity extends AppCompatActivity {
         HashMap<String, String> user = sessao.getUserDetails();
         idUsuario = user.get(UsuarioSessao.KEY_ID);
 
-        RefreshList();
 
+
+
+        AsyncTaskRunner runner = new AsyncTaskRunner();
+        runner.execute("");
     }
 
-    private void RefreshList(){
+    private class AsyncTaskRunner extends AsyncTask<String,String,String> {
 
-        request = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    if(jsonArray.length() <= 0){
-                        msg.setVisibility(View.VISIBLE);
-                    }else {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject objeto = jsonArray.getJSONObject(i);
-                            agendamento = new Agendamento(objeto.getInt("id"), objeto.getString("data"), objeto.getString("horario"), objeto.getString("descricao"), objeto.getString("status"), objeto.getString("hospital"));
-                            list.add(agendamento);
-                        }
-                        Log.i("List", list.toString());
-                        final ArrayAdapter<Agendamento> adapter = new AgendamentoAdapter(getApplicationContext(), list,true);
-                        listview.setAdapter(adapter);
+        private String resp;
 
-                        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        @Override
+        protected String doInBackground(String... strings) {
+            request = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        if (jsonArray.length() <= 0) {
+                            msg.setVisibility(View.VISIBLE);
+                        } else {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject objeto = jsonArray.getJSONObject(i);
+                                agendamento = new Agendamento(objeto.getInt("id"), objeto.getString("data"), objeto.getString("horario"), objeto.getString("descricao"), objeto.getString("status"), objeto.getString("hospital"));
+                                list.add(agendamento);
 
                             }
-                        });
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
 
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> hashMap = new HashMap<String, String>();
-                hashMap.put("id",idUsuario);
-                return hashMap;
-            }
-        };
-        requestQueue.add(request);
+                            final ArrayAdapter<Agendamento> adapter = new AgendamentoAdapter(getApplicationContext(), list, true);
+                            listview.setAdapter(adapter);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> hashMap = new HashMap<String, String>();
+                    hashMap.put("id", idUsuario);
+                    return hashMap;
+                }
+            };
+            requestQueue.add(request);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getApplicationContext(),"Carregando",Toast.LENGTH_LONG).show();
+
+        }
     }
 
 }
