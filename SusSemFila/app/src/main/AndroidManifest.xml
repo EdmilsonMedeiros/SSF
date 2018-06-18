@@ -22,8 +22,8 @@
         </activity>
         <activity android:name=".CadastroActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".AgendarActivity" />
         <activity android:name=".AgendamentoActivity" />
-        <activity android:name=".AgendadasActivity" />
         <activity android:name=".HistoricoActivity" />
 
         <service android:name=".ClasseOuvinte">
