@@ -1,10 +1,12 @@
 package br.com.geekstorm.sussemfila;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,8 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AgendamentoActivity extends AppCompatActivity {
-    TextView tvNomeDoCara;
-    TextView tvCpfDoCara;
     UsuarioSessao sessao2;
     //Widgets do Layout
     private Spinner especialidade, medico, hospital, atendimento;
@@ -71,15 +71,13 @@ public class AgendamentoActivity extends AppCompatActivity {
     String gHospital;
     String gMedico;
     String gAtendimento;
-
+    private AlertDialog alerta;
     ProgressDialog progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_agendamento);
+        setContentView(R.layout.activity_agendar);
         //----------------------
-        tvCpfDoCara = (TextView) findViewById(R.id.tvCpfUsuario);
-        tvNomeDoCara = (TextView) findViewById(R.id.tvNomeUsuario);
 
         this.sessao = new UsuarioSessao(getApplicationContext());
         HashMap<String, String> user = sessao.getUserDetails();
@@ -90,13 +88,7 @@ public class AgendamentoActivity extends AppCompatActivity {
         Intent a = getIntent();
         String cpfdocara = a.getStringExtra("nomedocara");
         String nomedocara = a.getStringExtra("cpfdocara");
-        if (this.sessao.isUserLoggedIn()) {
-            tvNomeDoCara.setText(nome);
-            tvCpfDoCara.setText("CPF: " + cpf);
-        } else {
-            tvNomeDoCara.setText(cpfdocara);
-            tvCpfDoCara.setText("CPF: " + nomedocara);
-        }
+
         //----------------------
         //Efetuando ligação do Objeto Sessão ao Contexto
         this.sessao = new UsuarioSessao(getApplicationContext());
@@ -370,10 +362,8 @@ public class AgendamentoActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.names().get(0).equals("confirmado")) {
                         progress.dismiss();
-                        Toast.makeText(getApplicationContext(),"Consulta Cadastrada!", Toast.LENGTH_LONG).show();
-                        finish();
+                        AlertTrue();
                     } else {
-
                         Toast.makeText(getApplicationContext(),"Erro ao Cadastrar a Consulta!", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
@@ -399,6 +389,29 @@ public class AgendamentoActivity extends AppCompatActivity {
             }
         };
         requestQueue.add(request);
+    }
+
+    private void AlertTrue() {
+        //LayoutInflater é utilizado para inflar nosso layout em uma view.
+        //-pegamos nossa instancia da classe
+        LayoutInflater li = getLayoutInflater();
+
+        //inflamos o layout alerta.xml na view
+        View view = li.inflate(R.layout.layout_dialog_agendar, null);
+        //definimos para o botão do layout um clickListener
+
+        view.findViewById(R.id.dialog_agendar_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.layout_dialog_agendar);
+        builder.setView(view);
+        alerta = builder.create();
+        alerta.show();
 
 
     }

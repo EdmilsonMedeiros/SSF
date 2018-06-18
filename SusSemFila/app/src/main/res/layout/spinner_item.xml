@@ -7,7 +7,9 @@
     android:textSize="20sp"
     android:gravity="left"
     android:textColor="@color/black"
-    android:text=""
+    android:text="Teste"
     android:padding="5dip"
-
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:paddingStart="15dp"
     />

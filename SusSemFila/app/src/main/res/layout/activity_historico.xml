@@ -1,46 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activty_historico"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoricoActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin_main"
+    android:paddingLeft="@dimen/activity_horizontal_margin_main"
+    android:paddingRight="@dimen/activity_horizontal_margin_main"
+    android:paddingTop="@dimen/activity_vertical_margin_main"
+    android:background="@color/colorPrimaryBack">
 
-    <ListView
-        android:id="@+id/listViewHistorico"
-        android:layout_width="382dp"
-        android:layout_height="480dp"
-        android:layout_marginTop="132dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/defaultpage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="124dp"
-        android:layout_height="130dp"
-        android:layout_marginEnd="244dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/botaohistorico" />
+        <RelativeLayout
+            android:id="@+id/historico_navbar"
+            android:orientation="horizontal"
+            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            >
 
-    <TextView
-        android:id="@+id/tvNomeUsuario"
-        android:layout_width="200dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginTop="36dp"
-        android:text="Nome Usuario"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HISTORICO"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="25dp"/>
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tvCpfUsuario"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="45dp"
-        android:text="Cpf Usuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNomeUsuario" />
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/historico_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Opa! Você não possui nenhuma consulta no banco finalizada."
+            android:textColor="@color/black"
+            android:textSize="25dp" />
+        <ListView
+            android:id="@+id/historico_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
+
+

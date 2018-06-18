@@ -1,125 +1,102 @@
 package br.com.geekstorm.sussemfila;
 
-import android.content.Intent;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 
 public class AgendadasActivity extends AppCompatActivity {
-    //1
-    String urlAdress = "https://sussemfila.000webhostapp.com/listViewShow.php";
-    String[] dataConsulta;
-    String[] especialidade;
-    String[] statusC;
-    String[] foto;
-    ListView listView;
-    //5
-    String line="null";
-    String result="null";
-    //4
-    BufferedInputStream is;
-    //7
-    TextView tvNomeDoCara;
-    TextView tvCpfDoCara;
-    UsuarioSessao sessao;
 
-    String idUser;
+    private ListView listview;
+    private Agendamento agendamento;
+    private ArrayList<Agendamento> list = new ArrayList<Agendamento>();;
+    TextView msg;
+
+    private String Url = "https://sussemfila.000webhostapp.com/getAgendamento.php";
+    private Request request;
+    private RequestQueue requestQueue;
+
+    //Sistema de Sessão
+    private UsuarioSessao sessao;
+    private String idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_agendadas);
+        setContentView(R.layout.activity_agendamento);
+        requestQueue = Volley.newRequestQueue(this);
+        listview = (ListView) findViewById(R.id.agendadas_listview);
+        msg = (TextView) findViewById(R.id.historico_msg);
+        msg.setVisibility(View.GONE);
 
-        //6 - pega nome e cpf do usuario logado
-        tvNomeDoCara=(TextView) findViewById(R.id.tvNomeUsuario);
-        tvCpfDoCara=(TextView) findViewById(R.id.tvCpfUsuario);
         this.sessao = new UsuarioSessao(getApplicationContext());
         HashMap<String, String> user = sessao.getUserDetails();
-        String nome = user.get(UsuarioSessao.KEY_NOME);
-        String cpf = user.get(UsuarioSessao.KEY_CPF);
-        String idUsuario = user.get(UsuarioSessao.KEY_ID);
-        idUser = idUsuario;
-        Intent a = getIntent();
-        String cpfdocara = a.getStringExtra("nomedocara");
-        String nomedocara = a.getStringExtra("cpfdocara");
-        if (this.sessao.isUserLoggedIn()) {
-            tvNomeDoCara.setText(nome);
-            tvCpfDoCara.setText("CPF: " + cpf);
-        } else {
-            tvNomeDoCara.setText(cpfdocara);
-            tvCpfDoCara.setText("CPF: " + nomedocara);
-        }
+        idUsuario = user.get(UsuarioSessao.KEY_ID);
 
-        //2
-        listView = (ListView) findViewById(R.id.lView);
-        //tvStatusC = findViewById(R.id.tv);
-
-        //3---------
-        StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
-        collectData();
-        CustomListView customListView = new CustomListView(this, dataConsulta, especialidade, foto, statusC);
-        listView.setAdapter(customListView);
+        RefreshList();
 
     }
-    private void collectData(){//connection-------4
-        try{
-            URL url = new URL(urlAdress);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setRequestMethod("POST");
 
-            is = new BufferedInputStream(con.getInputStream());
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-        //content
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-            while ((line=br.readLine()) != null){
-                sb.append(line+"\n");
-            }
-            is.close();
-            result = sb.toString();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-        //JSON array e Object
-        try{
-            JSONArray ja = new JSONArray(result);
-            JSONObject jo = null;
-            dataConsulta = new String[ja.length()];
-            especialidade = new String[ja.length()];
-            statusC = new String[ja.length()];
-            foto = new String[ja.length()];
+    private void RefreshList(){
 
-            for (int i=0; i<=ja.length(); i++){
-                jo = ja.getJSONObject(i);
-                dataConsulta[i] = jo.getString("dt_consulta");
-                especialidade[i] = jo.getString("descricao");
-                statusC[i] = jo.getString("status");
-                foto[i] = jo.getString("link_profile");
+        request = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+                    if(jsonArray.length() <= 0){
+                        msg.setVisibility(View.VISIBLE);
+                    }else {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject objeto = jsonArray.getJSONObject(i);
+                            agendamento = new Agendamento(objeto.getInt("id"), objeto.getString("data"), objeto.getString("horario"), objeto.getString("descricao"), objeto.getString("status"), objeto.getString("hospital"));
+                            list.add(agendamento);
+                        }
+                        Log.i("List", list.toString());
+                        ArrayAdapter<Agendamento> adapter = new AgendamentoAdapter(getApplicationContext(), list,true);
+                        listview.setAdapter(adapter);
+                        
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }//fim collectData;
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                hashMap.put("id",idUsuario);
+                return hashMap;
+            }
+        };
+        requestQueue.add(request);
+    }
+
 }
+
