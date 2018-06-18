@@ -1,13 +1,17 @@
 package br.com.geekstorm.sussemfila;
 
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,6 +44,8 @@ public class AgendadasActivity extends AppCompatActivity {
     //Sistema de Sessão
     private UsuarioSessao sessao;
     private String idUsuario;
+
+    private AlertDialog alerta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +80,15 @@ public class AgendadasActivity extends AppCompatActivity {
                             list.add(agendamento);
                         }
                         Log.i("List", list.toString());
-                        ArrayAdapter<Agendamento> adapter = new AgendamentoAdapter(getApplicationContext(), list,true);
+                        final ArrayAdapter<Agendamento> adapter = new AgendamentoAdapter(getApplicationContext(), list,true);
                         listview.setAdapter(adapter);
-                        
+
+                        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

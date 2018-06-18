@@ -397,8 +397,10 @@ public class AgendamentoActivity extends AppCompatActivity {
         LayoutInflater li = getLayoutInflater();
 
         //inflamos o layout alerta.xml na view
-        View view = li.inflate(R.layout.layout_dialog_agendar, null);
+        View view = li.inflate(R.layout.layout_dialog, null);
         //definimos para o botão do layout um clickListener
+        TextView msg = (TextView) view.findViewById(R.id.dialog_msg);
+        msg.setText("Agendamento Realizado com Sucesso!");
 
         view.findViewById(R.id.dialog_agendar_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -408,11 +410,14 @@ public class AgendamentoActivity extends AppCompatActivity {
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(R.layout.layout_dialog_agendar);
+        builder.setView(R.layout.layout_dialog);
         builder.setView(view);
         alerta = builder.create();
         alerta.show();
 
 
     }
+
+
+
 }
