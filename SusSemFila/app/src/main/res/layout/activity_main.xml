@@ -82,13 +82,15 @@
             android:background="@color/cinza">
 
             <ImageView
-                android:id="@+id/Main_perfil"
+                android:id="@+id/main_perfil"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="30dp"
                 app:srcCompat="@drawable/perfilm"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="20dp"
+
+                />
 
             <TextView
                 android:id="@+id/Main_nomeuser"
@@ -96,7 +98,7 @@
                 android:layout_height="25dp"
                 android:text="Carregando"
                 android:textSize="18dp"
-                android:layout_toRightOf="@id/Main_perfil"
+                android:layout_toRightOf="@id/main_perfil"
                 android:layout_marginTop="20dp"/>
 
             <TextView
@@ -105,7 +107,7 @@
                 android:layout_height="18dp"
                 android:text="999.999.999-01"
                 android:textSize="12dp"
-                android:layout_toRightOf="@+id/Main_perfil"
+                android:layout_toRightOf="@+id/main_perfil"
                 android:layout_below="@+id/Main_nomeuser"/>
 
             <TextView

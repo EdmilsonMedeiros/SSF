@@ -1,6 +1,8 @@
 package br.com.geekstorm.sussemfila;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,12 +31,13 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     //Widgets do Layout
-    ImageView agendamento, consAgendadas, mainBthistorico, Main_btconfiguracao;
+    ImageView agendamento, consAgendadas, mainBthistorico, Main_btconfiguracao, main_perfil;
     TextView nomeusuario, cpfusuario, btsair;
     //Sistema de Sessão
     UsuarioSessao sessao;
     String EXTRA_MESSAGE;
     String EXTRA_MESSAGE2;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         consAgendadas = findViewById(R.id.Main_btconsultaagendamento);
         mainBthistorico = findViewById(R.id.mainBthistorico);
         Main_btconfiguracao = findViewById(R.id.Main_btconfiguracao);
+        main_perfil = findViewById(R.id.main_perfil);
+
+        main_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
 
         this.sessao = new UsuarioSessao(getApplicationContext());
 
@@ -83,12 +94,12 @@ public class MainActivity extends AppCompatActivity {
         Main_btconfiguracao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(MainActivity.this, ConfigActivity.class);
-                String nomedocara = it.getStringExtra("nomedocara");
-                String cpfdocara = it.getStringExtra("cpfdocara");
-                it.putExtra(EXTRA_MESSAGE, nomedocara);
-                it.putExtra(EXTRA_MESSAGE2, cpfdocara);
-                startActivity(it);
+                    Intent it = new Intent(MainActivity.this, ConfigActivity.class);
+                    String nomedocara = it.getStringExtra("nomedocara");
+                    String cpfdocara = it.getStringExtra("cpfdocara");
+                    it.putExtra(EXTRA_MESSAGE, nomedocara);
+                    it.putExtra(EXTRA_MESSAGE2, cpfdocara);
+                    startActivity(it);
             }
         });
 
@@ -149,7 +160,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent2);
     }
     */
-
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            main_perfil.setImageBitmap(imageBitmap);
+        }
+    }
     //Função sair e deletar sessão
     private void logoff(){
         finish();
