@@ -5,28 +5,11 @@ import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         consAgendadas.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(sessao.isUserLoggedIn()) {
-                    Intent it = new Intent(MainActivity.this, AgendadasActivity.class);
+                    Intent it = new Intent(MainActivity.this, AgendamentoActivity.class);
                     String nomedocara = it.getStringExtra("nomedocara");
                     String cpfdocara = it.getStringExtra("cpfdocara");
                     it.putExtra(EXTRA_MESSAGE, nomedocara);
@@ -140,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         agendamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,AgendamentoActivity.class);
+                Intent i = new Intent(MainActivity.this,AgendarActivity.class);
                 startActivity(i);
           }
         });

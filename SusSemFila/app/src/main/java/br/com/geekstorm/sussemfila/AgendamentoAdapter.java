@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ public class AgendamentoAdapter extends ArrayAdapter<Agendamento> {
 
     private Request request;
     private RequestQueue requestQueue;
-    private AlertDialog alerta;
+    private boolean msg;
 
     public AgendamentoAdapter(Context context, ArrayList<Agendamento> elementos, boolean b){
 
@@ -82,7 +83,9 @@ public class AgendamentoAdapter extends ArrayAdapter<Agendamento> {
                 Deletar(""+elementos.get(position).id);
                 Log.i("Elemenot: ", elementos.get(position).toString());
                 Log.i("Elemento Id: ", ""+elementos.get(position).id);
-            }
+
+                 Toast.makeText(context, "Consulta cancelada com sucesso!", Toast.LENGTH_LONG).show();
+                }
         });
 
 
@@ -108,16 +111,13 @@ public class AgendamentoAdapter extends ArrayAdapter<Agendamento> {
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject objeto = jsonArray.getJSONObject(i);
+                     JSONArray jsonArray = new JSONArray(response);
+                        JSONObject objeto = jsonArray.getJSONObject(0);
                         if (objeto.names().get(0).equals("confirmado")){
-                            Toast.makeText(getContext(),"llala",Toast.LENGTH_LONG).show();
-                            Deletado();
-                        }
-                    }
 
-                }catch (JSONException e) {
+                }
+
+            }catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -135,33 +135,6 @@ public class AgendamentoAdapter extends ArrayAdapter<Agendamento> {
             }
         };
         requestQueue.add(request);
-    }
-    public void Deletado() {
-        //LayoutInflater é utilizado para inflar nosso layout em uma view.
-        //-pegamos nossa instancia da classe
-        LayoutInflater li = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-
-        //inflamos o layout alerta.xml na view
-        View view = li.inflate(R.layout.layout_dialog, null);
-        //definimos para o botão do layout um clickListener
-        TextView msg = (TextView) view.findViewById(R.id.dialog_msg);
-        msg.setText("Agendamento cancelado com sucesso!");
-
-        view.findViewById(R.id.dialog_agendar_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setView(R.layout.layout_dialog);
-        builder.setView(view);
-        alerta = builder.create();
-        alerta.show();
+    }}
 
 
-    }
-
-
-}

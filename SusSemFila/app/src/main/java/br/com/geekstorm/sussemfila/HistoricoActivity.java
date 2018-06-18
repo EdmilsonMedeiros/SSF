@@ -1,5 +1,6 @@
 package br.com.geekstorm.sussemfila;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -55,45 +57,63 @@ public class HistoricoActivity extends AppCompatActivity {
         HashMap<String, String> user = sessao.getUserDetails();
         idUsuario = user.get(UsuarioSessao.KEY_ID);
 
-        RefreshList();
+        HistoricoActivity.AsyncTaskRunner runner = new HistoricoActivity.AsyncTaskRunner();
+        runner.execute("");
     }
 
-    private void RefreshList(){
+    private class AsyncTaskRunner extends AsyncTask<String,String,String> {
 
-        request = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray jsonArray = new JSONArray(response);
-                    if(jsonArray.length() <= 0){
-                        msg.setVisibility(View.VISIBLE);
-                    }else {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject objeto = jsonArray.getJSONObject(i);
-                            agendamento = new Agendamento(objeto.getInt("id"), objeto.getString("data"), objeto.getString("horario"), objeto.getString("descricao"), objeto.getString("status"), objeto.getString("hospital"));
-                            list.add(agendamento);
+        private String resp;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            request = new StringRequest(Request.Method.POST, Url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        if(jsonArray.length() <= 0){
+                            msg.setVisibility(View.VISIBLE);
+                        }else {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject objeto = jsonArray.getJSONObject(i);
+                                agendamento = new Agendamento(objeto.getInt("id"), objeto.getString("data"), objeto.getString("horario"), objeto.getString("descricao"), objeto.getString("status"), objeto.getString("hospital"));
+                                list.add(agendamento);
+                            }
+                            Log.i("List", list.toString());
+                            ArrayAdapter<Agendamento> adapter = new AgendamentoAdapter(getApplicationContext(), list,false);
+                            listview.setAdapter(adapter);
                         }
-                        Log.i("List", list.toString());
-                        ArrayAdapter<Agendamento> adapter = new AgendamentoAdapter(getApplicationContext(), list,false);
-                        listview.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> hashMap = new HashMap<String, String>();
-                hashMap.put("id",idUsuario);
-                return hashMap;
-            }
-        };
-        requestQueue.add(request);
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> hashMap = new HashMap<String, String>();
+                    hashMap.put("id",idUsuario);
+                    return hashMap;
+                }
+            };
+            requestQueue.add(request);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getApplicationContext(),"Carregando",Toast.LENGTH_LONG).show();
+
+        }
     }
 }
