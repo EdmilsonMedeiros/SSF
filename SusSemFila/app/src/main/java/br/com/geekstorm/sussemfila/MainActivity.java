@@ -160,19 +160,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent2);
     }
     */
+
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+    /*
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             main_perfil.setImageBitmap(imageBitmap);
         }
-    }
+    }*/
     //Função sair e deletar sessão
     private void logoff(){
         finish();
