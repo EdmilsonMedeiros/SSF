@@ -1,7 +1,7 @@
 package br.com.geekstorm.sussemfila;
 
 public class Agendamento {
-    int id;
+    long id;
     String datamarcada;
     String horariomarcado;
     String especialidade;
@@ -10,7 +10,7 @@ public class Agendamento {
 
 
     public Agendamento(){}
-    public Agendamento(int id, String data,String horario, String especialidade, String status, String hospital){
+    public Agendamento(long id, String data,String horario, String especialidade, String status, String hospital){
         this.id = id;
         this.datamarcada = data;
         this.horariomarcado = horario;
